@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import Button from './components/Button/Button.vue';
+import { ref, onMounted } from 'vue'
+import Button from './components/Button/Button.vue'
+import type { ButtonInstance } from './components/Button/types'
+
+const buttonRef = ref<ButtonInstance | null>(null)
+
+onMounted(() => {
+  if (buttonRef.value) {
+    console.log('buttonRef', buttonRef.value.ref)
+  }
+})
 </script>
 
 <template>
@@ -9,7 +19,7 @@ import Button from './components/Button/Button.vue';
   </header>
 
   <main>
-    <Button type="primary" plain>星</Button>
+    <Button ref="buttonRef" type="primary" plain>星</Button>
   </main>
 </template>
 
