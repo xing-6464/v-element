@@ -2,6 +2,14 @@
   /* colors */
   --x-color-white: #ffffff;
   --x-color-black: #000000;
+  /* @each $val, $color in (primary, success), (#409eff, #67c23a) {
+    --x-color-1-$(val): $(color);
+    @for $i from 3 to 9 by 2 {
+      --x-color-$(val)-light-$(i): $(color)
+    }
+    --x-color-$(val)-light-1-8: $(color);
+    --x-color-$(val)-dark-1-2: $(color);
+  }
   --x-color-primary: #409eff;
   --x-color-primary-light-3: #79bbff;
   --x-color-primary-light-5: #a0cfff;
@@ -36,23 +44,23 @@
   --x-color-info-light-7: #dedfe0;
   --x-color-info-light-8: #e9e9eb;
   --x-color-info-light-9: #f4f4f5;
-  --x-color-info-dark-2: #73767a;
-  /* --colors: (
+  --x-color-info-dark-2: #73767a; */
+  --colors: (
     primary: #409eff,
     success: #67c23a,
     warning: #e6a23c,
     danger: #f56c6c,
     info: #909399
-  ); */
+  );
 
-  /* @each $val, $color in var(--colors) {
+  @each $val, $color in var(--colors) {
     --x-color-$(val): $(color);
     @for $i from 3 to 9 by 2 {
-      --x-color-$(val)-light-$(i): mix(#fff, $(color), .$(i));
+      --x-color-$(val)-light-$(i): mix(#fff, $(color), .$(i))
     }
     --x-color-$(val)-light-8: mix(#fff, $(color), 0.8);
     --x-color-$(val)-dark-2: mix(#000, $(color), 0.2);
-  } */
+  }
 
   --x-bg-color: #ffffff;
   --x-bg-color-page: #f2f3f5;
