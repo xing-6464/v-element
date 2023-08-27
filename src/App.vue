@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import XButton from './components/Button/Button.vue'
-
+import Collapse from './components/Collapse/Collapse.vue'
+import Item from './components/Collapse/CollapseItem.vue'
 
 </script>
 
@@ -36,6 +37,22 @@ import XButton from './components/Button/Button.vue'
     <XButton type="danger" circle>Primary</XButton>
     <br />
     <br />
+
+    <Collapse>
+      <Item name="a">
+        <template #title>
+          <h1>nice a</h1>
+        </template>
+        <h1>heading title</h1>
+        <div>this is content a</div>
+      </Item>
+      <Item name="b" title="nice b">
+        <div>this is content b</div>
+      </Item>
+      <Item name="c" title="nice c" disabled>
+        <div>this is content c</div>
+      </Item>
+    </Collapse>
   </main>
 </template>
 
