@@ -1,6 +1,6 @@
 <template>
-  <button ref="_ref" class="vx-button"
-    :class="{ [`x-button--${type}`]: type, 'is-plain': plain, 'is-round': round, 'is-circle': circle, 'is-disabled': disabled }"
+  <button ref="_ref" class="x-button"
+    :class="{ [`x-button--${type}`]: type, [`x-button--${size}`]: size, 'is-plain': plain, 'is-round': round, 'is-circle': circle, 'is-disabled': disabled }"
     :disabled="disabled" :autofocus="autofocus" :type="nativeType">
     <span>
       <slot />
@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { ButtonProps, ButtonInstance } from './types'
+import type { ButtonProps } from './types'
 
 defineOptions({
   name: 'XButton'

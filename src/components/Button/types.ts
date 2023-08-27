@@ -3,7 +3,7 @@ export type ButtonSize = 'large' | 'small'
 export type NativeType = 'button' | 'submit' | 'reset'
 
 export interface ButtonProps {
-  type?: ButtonProps
+  type?: ButtonType
   size?: ButtonSize
   plain?: boolean
   round?: boolean

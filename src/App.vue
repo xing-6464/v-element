@@ -1,20 +1,41 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import Button from './components/Button/Button.vue'
-import type { ButtonInstance } from './components/Button/types'
+import XButton from './components/Button/Button.vue'
 
-const buttonRef = ref<ButtonInstance | null>(null)
 
-onMounted(() => {
-  if (buttonRef.value) {
-    console.log('buttonRef', buttonRef.value.ref)
-  }
-})
 </script>
 
 <template>
   <main>
-    <Button ref="buttonRef" type="primary" plain>星</Button>
+    <XButton plain>Plain Test</XButton>
+    <XButton round>Round</XButton>
+    <XButton circle>VK</XButton>
+    <XButton disabled>Disabled</XButton>
+    <br />
+    <br />
+    <XButton type="primary">Primary</XButton>
+    <XButton type="success">Primary</XButton>
+    <XButton type="danger">Primary</XButton>
+    <br />
+    <br />
+    <XButton type="info" size="large">Primary</XButton>
+    <XButton type="info" size="small">Primary</XButton>
+    <br />
+    <br />
+    <XButton type="primary" plain>Primary</XButton>
+    <XButton type="success" plain>Primary</XButton>
+    <XButton type="danger" plain>Primary</XButton>
+    <br />
+    <br />
+    <XButton type="primary" round>Primary</XButton>
+    <XButton type="success" round>Primary</XButton>
+    <XButton type="danger" round>Primary</XButton>
+    <br />
+    <br />
+    <XButton type="primary" circle>Primary</XButton>
+    <XButton type="success" circle>Primary</XButton>
+    <XButton type="danger" circle>Primary</XButton>
+    <br />
+    <br />
   </main>
 </template>
 
