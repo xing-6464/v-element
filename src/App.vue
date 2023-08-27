@@ -13,11 +13,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-  </header>
-
   <main>
     <Button ref="buttonRef" type="primary" plain>星</Button>
   </main>

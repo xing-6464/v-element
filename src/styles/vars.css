@@ -1,6 +1,6 @@
 :root {
   /* colors */
-  ---color-white: #ffffff;
+  --x-color-white: #ffffff;
   --x-color-black: #000000;
   --colors: (
     primary: #409eff,
