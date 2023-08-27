@@ -1,6 +1,6 @@
 <template>
   <button ref="_ref" class="vx-button"
-    :class="{ [`vk-button--${type}`]: type, 'is-plain': plain, 'is-round': round, 'is-circle': circle, 'is-disabled': disabled }"
+    :class="{ [`x-button--${type}`]: type, 'is-plain': plain, 'is-round': round, 'is-circle': circle, 'is-disabled': disabled }"
     :disabled="disabled" :autofocus="autofocus" :type="nativeType">
     <span>
       <slot />
@@ -13,7 +13,7 @@ import { ref } from 'vue';
 import type { ButtonProps, ButtonInstance } from './types'
 
 defineOptions({
-  name: 'VxButton'
+  name: 'XButton'
 })
 withDefaults(defineProps<ButtonProps>(), {
   nativeType: 'button'
@@ -25,3 +25,9 @@ defineExpose({
   ref: _ref
 })
 </script>
+
+<style>
+.x-button {
+  background-color: var(--main-bg-color);
+}
+</style>
