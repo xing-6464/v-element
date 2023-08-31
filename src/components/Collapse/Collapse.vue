@@ -12,7 +12,7 @@ import { collapseContextKey } from './types'
 defineOptions({
   name: 'XCollapse',
 })
-const activeNames = ref<NameType[]>()
+const activeNames = ref<NameType[]>([])
 
 const handleItemClick = (item: NameType) => {
   const index = activeNames.value.indexOf(item)
