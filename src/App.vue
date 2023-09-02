@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import XButton from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
 
+const openValue = ref(['a'])
 </script>
-
 <template>
   <main>
     <XButton plain>Plain Test</XButton>
@@ -38,7 +39,7 @@ import Item from './components/Collapse/CollapseItem.vue'
     <br />
     <br />
 
-    <Collapse>
+    <Collapse v-model="openValue" accordion>
       <Item name="a">
         <template #title>
           <h1>nice a</h1>
@@ -53,6 +54,7 @@ import Item from './components/Collapse/CollapseItem.vue'
         <div>this is content c</div>
       </Item>
     </Collapse>
+    {{ openValue }}
   </main>
 </template>
 
