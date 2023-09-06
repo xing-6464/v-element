@@ -4,6 +4,7 @@ import XButton from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
+import Alert from './components/Alert/Alert.vue'
 
 const openValue = ref(['a'])
 const size = ref<any>('3x')
@@ -15,6 +16,14 @@ setTimeout(() => {
   <Icon icon="fa-solid fa-user-secret" />
   <Icon icon="arrow-up" :size="size" type="danger" color="#0e7a0d" />
   <main>
+    <Alert content="this is Alert" type="primary" />
+    <Alert content="this is Alert" type="info" closable />
+    <Alert>
+      <h1>
+        saxinfad
+      </h1>
+      <p>sakldas</p>
+    </Alert>
     <XButton plain>Plain Test</XButton>
     <XButton round>Round</XButton>
     <XButton circle>VK</XButton>
