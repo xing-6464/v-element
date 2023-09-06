@@ -21,30 +21,8 @@ setTimeout(() => {
     <XButton disabled>Disabled</XButton>
     <br />
     <br />
-    <XButton type="primary">Primary</XButton>
-    <XButton type="success">Primary</XButton>
-    <XButton type="danger">Primary</XButton>
-    <br />
-    <br />
-    <XButton type="info" size="large">Primary</XButton>
-    <XButton type="info" size="small">Primary</XButton>
-    <br />
-    <br />
-    <XButton type="primary" plain>Primary</XButton>
-    <XButton type="success" plain>Primary</XButton>
-    <XButton type="danger" plain>Primary</XButton>
-    <br />
-    <br />
-    <XButton type="primary" round>Primary</XButton>
-    <XButton type="success" round>Primary</XButton>
-    <XButton type="danger" round>Primary</XButton>
-    <br />
-    <br />
-    <XButton type="primary" circle>Primary</XButton>
-    <XButton type="success" circle>Primary</XButton>
-    <XButton type="danger" circle>Primary</XButton>
-    <br />
-    <br />
+    <XButton size="large" loading>Loading</XButton>
+    <XButton size="large" icon="arrow-up">Icon</XButton>
 
     <Collapse v-model="openValue" accordion>
       <Item name="a">

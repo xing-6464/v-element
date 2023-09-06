@@ -3,6 +3,7 @@
     <div class="x-collapse-item__header" :class="{ 'is-disabled': disabled, 'is-active': isActive }"
       :id="`item-header-${name}`" @click="handleClick">
       <slot name="title">{{ title }}</slot>
+      <Icon icon="angle-right" class="header-angle" />
     </div>
     <Transition name="slide" v-on="transitionEvents">
       <div class="x-collapse-item__wrapper" v-show="isActive">
@@ -17,6 +18,7 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
 
+import Icon from '../Icon/Icon.vue'
 import { collapseContextKey } from './types'
 import type { CollapseItemProps } from './types'
 
