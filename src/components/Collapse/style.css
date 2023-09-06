@@ -43,7 +43,7 @@
   font-size: var(--x-collapse-content-font-size);
   color: var(--x-collapse-content-text-color);
   border-bottom: 1px solid var(--x-collapse-border-color);
-  /* padding-bottom: 25px; */
+  padding-bottom: 25px;
 }
 .slide-enter-active,
 .slide-leave-active {
