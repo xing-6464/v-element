@@ -7,6 +7,7 @@ import Item from './components/Collapse/CollapseItem.vue'
 const openValue = ref(['a'])
 </script>
 <template>
+  <font-awesome-icon icon="fa-solid fa-user-secret"></font-awesome-icon>
   <main>
     <XButton plain>Plain Test</XButton>
     <XButton round>Round</XButton>
