@@ -1,18 +1,22 @@
 <template>
   <div class="x-collapse-item" :class="{ 'is-disabled': disabled }">
-    <div class="x-collapse-item__header" :id="`item-header-${name}`" @click="handleClick">
+    <div class="x-collapse-item__header" :class="{ 'is-disabled': disabled, 'is-active': isActive }"
+      :id="`item-header-${name}`" @click="handleClick">
       <slot name="title">{{ title }}</slot>
     </div>
-    <div class="x-collapse-item__content" :id="`item-content-${name}`" v-show="isActive">
-      <slot />
-    </div>
+    <Transition name="fade">
+      <div class="x-collapse-item__content" :id="`item-content-${name}`" v-show="isActive">
+        <slot />
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import type { CollapseItemProps } from './types'
+
 import { collapseContextKey } from './types'
+import type { CollapseItemProps } from './types'
 
 defineOptions({
   name: 'XCollapseItem',
