@@ -6,10 +6,14 @@ import Item from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 
 const openValue = ref(['a'])
+const size = ref<any>('3x')
+setTimeout(() => {
+  size.value = '2xl'
+}, 2000)
 </script>
 <template>
   <Icon icon="fa-solid fa-user-secret" />
-  <Icon icon="arrow-up" size="2xl" spin />
+  <Icon icon="arrow-up" :size="size" type="danger" color="#0e7a0d" />
   <main>
     <XButton plain>Plain Test</XButton>
     <XButton round>Round</XButton>
