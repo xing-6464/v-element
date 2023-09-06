@@ -3,11 +3,13 @@ import { ref } from 'vue';
 import XButton from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
+import Icon from './components/Icon/Icon.vue'
 
 const openValue = ref(['a'])
 </script>
 <template>
-  <font-awesome-icon icon="fa-solid fa-user-secret"></font-awesome-icon>
+  <Icon icon="fa-solid fa-user-secret" />
+  <Icon icon="arrow-up" size="2xl" spin />
   <main>
     <XButton plain>Plain Test</XButton>
     <XButton round>Round</XButton>
