@@ -62,4 +62,48 @@ describe('Collapse.vue', async () => {
     await disabledHeader.trigger('click')
     expect(disabledContent.isVisible()).toBeFalsy()
   })
+
+  test.only('accordion', async () => {
+    const onChange = vi.fn()
+    const wrapper = mount(
+      () => (
+        <Collapse modelValue={['a']} onChange={onChange} accordion>
+          <CollapseItem name="a" title="title a">
+            content a
+          </CollapseItem>
+          <CollapseItem name="b" title="title b">
+            content b
+          </CollapseItem>
+          <CollapseItem name="c" title="title c" disabled>
+            content c
+          </CollapseItem>
+        </Collapse>
+      ),
+      {
+        global: {
+          stubs: ['Icon']
+        },
+        attachTo: document.body
+      }
+    )
+
+    const headers = wrapper.findAll('.x-collapse-item__header')
+    const contents = wrapper.findAll('.x-collapse-item__wrapper')
+
+    const firstHeader = headers[0]
+    const firstContent = contents[0]
+    const secondeHeader = headers[1]
+    const secondContent = contents[1]
+
+    // 测试手风琴模式
+    expect(firstContent.isVisible()).toBeTruthy()
+    await firstHeader.trigger('click')
+    expect(firstContent.isVisible()).toBeFalsy()
+    await secondeHeader.trigger('click')
+    expect(secondContent.isVisible()).toBeTruthy()
+
+    await firstHeader.trigger('click')
+    expect(secondContent.isVisible()).toBeFalsy()
+    expect(firstContent.isVisible()).toBeTruthy()
+  })
 })

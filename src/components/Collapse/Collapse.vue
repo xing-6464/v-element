@@ -29,7 +29,7 @@ const handleItemClick = (item: NameType) => {
     _activeNames = [activeNames.value[0] === item ? '' : item]
     activeNames.value = _activeNames
   } else {
-    const index = activeNames.value.indexOf(item)
+    const index = _activeNames.indexOf(item)
     if (index > -1) {
       _activeNames.splice(index, 1)
     } else {
