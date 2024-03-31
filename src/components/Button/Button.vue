@@ -1,7 +1,12 @@
 <template>
-  <button ref="_ref" class="x-button"
+  <button 
+    ref="_ref"
+    class="x-button"
     :class="{ [`x-button--${type}`]: type, [`x-button--${size}`]: size, 'is-plain': plain, 'is-round': round, 'is-circle': circle, 'is-disabled': disabled, 'is-loading': loading }"
-    :disabled="disabled || loading" :autofocus="autofocus" :type="nativeType">
+    :disabled="disabled || loading"
+    :autofocus="autofocus"
+    :type="nativeType"
+  >
     <Icon icon="spinner" spin v-if="loading" />
     <Icon :icon="icon" v-if="icon" />
     <span>

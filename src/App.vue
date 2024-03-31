@@ -1,10 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue'
 import XButton from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
+import { Instance, createPopper } from '@popperjs/core'
+
+const overlayNode = ref<HTMLElement>(null)
+const triggerNode = ref<HTMLElement>(null)
+let popperInstance: Instance | null = null
+
+onMounted(() => {
+  const popperInstance = createPopper(triggerNode.value, overlayNode.value, {
+    placement: 'right'
+  })
+
+  setTimeout(() => {
+    popperInstance.setOptions({ placement: 'bottom' })
+  }, )
+})
 
 const openValue = ref(['a'])
 const size = ref<any>('3x')
@@ -12,16 +27,20 @@ setTimeout(() => {
   size.value = '2xl'
 }, 2000)
 </script>
+
 <template>
+  <img ref="triggerNode" src="./assets/logo.svg" alt="" class="logo" width="125" height="125" />
+  <div ref="overlayNode">
+    <h1>Hello Tooltip</h1>
+  </div>
+
   <Icon icon="fa-solid fa-user-secret" />
   <Icon icon="arrow-up" :size="size" type="danger" color="#0e7a0d" />
   <main>
     <Alert content="this is Alert" type="primary" />
     <Alert content="this is Alert" type="info" closable />
     <Alert>
-      <h1>
-        saxinfad
-      </h1>
+      <h1>saxinfad</h1>
       <p>sakldas</p>
     </Alert>
     <XButton plain>Plain Test</XButton>
