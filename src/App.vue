@@ -1,25 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import XButton from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
-import { Instance, createPopper } from '@popperjs/core'
+import ToolTip from './components/Tooltip/ToolTip.vue'
 
-const overlayNode = ref<HTMLElement>(null)
-const triggerNode = ref<HTMLElement>(null)
-let popperInstance: Instance | null = null
-
-onMounted(() => {
-  const popperInstance = createPopper(triggerNode.value, overlayNode.value, {
-    placement: 'right'
-  })
-
-  setTimeout(() => {
-    popperInstance.setOptions({ placement: 'bottom' })
-  }, )
-})
 
 const openValue = ref(['a'])
 const size = ref<any>('3x')
@@ -29,11 +16,9 @@ setTimeout(() => {
 </script>
 
 <template>
-  <img ref="triggerNode" src="./assets/logo.svg" alt="" class="logo" width="125" height="125" />
-  <div ref="overlayNode">
-    <h1>Hello Tooltip</h1>
-  </div>
-
+  <ToolTip content="hello world" placement="bottom-start">
+    <img src="./assets/logo.svg" alt="hello" width="125" height="125">
+  </ToolTip>
   <Icon icon="fa-solid fa-user-secret" />
   <Icon icon="arrow-up" :size="size" type="danger" color="#0e7a0d" />
   <main>
