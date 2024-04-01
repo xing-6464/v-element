@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { h, ref } from 'vue'
 import XButton from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
-import ToolTip from './components/Tooltip/ToolTip.vue'
+import Dropdown from './components/Dropdown/Dropdown.vue'
 import { TooltipInstance } from './components/Tooltip/types'
+import type { MenuOption } from './components/Dropdown/types'
 
 
 const openValue = ref(['a'])
 const size = ref<any>('3x')
-const trigger = ref<'click' | 'hover'>('hover')
+const trigger = ref<'click' | 'hover'>('click')
+const options: MenuOption[] = [
+  {
+    key: 1,
+    label: h('b', 'item1')
+  },
+  { key: 2, label: 'item2', disabled: true },
+  { key: 3, label: 'item3', divided: true },
+  { key: 4, label: 'item4' } 
+]
 
 const tooltipRef = ref<TooltipInstance | null>(null)
+
 
 function open() {
   tooltipRef.value.show()
@@ -21,10 +32,6 @@ function open() {
 
 function close() {
   tooltipRef.value.hide()
-}
-
-function visible(value) {
-  console.log(value)
 }
 
 setTimeout(() => {
@@ -37,9 +44,9 @@ setTimeout(() => {
 </script>
 
 <template>
-  <ToolTip ref="tooltipRef" content="hello world" trigger="hover" placement="right" on-visible-change="visible" >
-    <img src="./assets/logo.svg" alt="hello" width="125" height="125">
-  </ToolTip>
+    <Dropdown placement="bottom" :trigger="trigger" :menu-options="options" >
+      <img src="./assets/logo.svg" alt="hello" width="125" height="125">
+    </Dropdown>
   <Icon icon="fa-solid fa-user-secret" />
   <Icon icon="arrow-up" :size="size" type="danger" color="#0e7a0d" />
   <main>
