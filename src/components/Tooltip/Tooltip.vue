@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue'
-import type { TooltipEmits, TooltipProps } from './types'
+import { onUnmounted, reactive, ref, watch } from 'vue'
+import type { TooltipEmits, TooltipProps, TooltipInstance } from './types'
 import { createPopper, type Instance } from '@popperjs/core'
 import useClickOutside from '@/hooks/useClickOutside'
 
@@ -32,8 +32,8 @@ let events: Record<string, any> = reactive({})
 let outerEvents: Record<string, any> = reactive({})
 
 useClickOutside(popperContainerNode, () => {
-  if (props.trigger === 'click' && isOpen.value) {
-    close()  
+  if (props.trigger === 'click' && isOpen.value && !props.manual) {
+    close()
   }
 })
 
@@ -58,6 +58,15 @@ watch(() => props.trigger, (newTrigger, oldTrigger) => {
   }
 })
 
+watch(() => props.manual, (newV) => {
+  if (newV) {
+    events = {}
+    outerEvents = {}
+  } else {
+    attachEvents()
+  }
+})
+
 function open() {
   isOpen.value = true
   emits('visible-change', true)
@@ -76,11 +85,19 @@ function attachEvents() {
     events['click'] = togglePopper
   }
 }
-attachEvents()
+
+!props.manual && attachEvents()
 
 function togglePopper() {
   isOpen.value = !isOpen.value
   emits('visible-change', isOpen.value)
 }
 
+onUnmounted(() => {
+  popperInstance?.destroy()
+})
+defineExpose<TooltipInstance>({
+  'show': open,
+  'hide': close
+})
 </script>

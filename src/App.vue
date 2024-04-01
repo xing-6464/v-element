@@ -6,11 +6,22 @@ import Item from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
 import ToolTip from './components/Tooltip/ToolTip.vue'
+import { TooltipInstance } from './components/Tooltip/types'
 
 
 const openValue = ref(['a'])
 const size = ref<any>('3x')
 const trigger = ref<'click' | 'hover'>('hover')
+
+const tooltipRef = ref<TooltipInstance | null>(null)
+
+function open() {
+  tooltipRef.value.show()
+}
+
+function close() {
+  tooltipRef.value.hide()
+}
 
 setTimeout(() => {
   trigger.value = 'click' 
@@ -22,7 +33,7 @@ setTimeout(() => {
 </script>
 
 <template>
-  <ToolTip content="hello world" placement="bottom-start" :trigger="trigger">
+  <ToolTip ref="tooltipRef" content="hello world" placement="bottom-start" trigger="click" manual>
     <img src="./assets/logo.svg" alt="hello" width="125" height="125">
   </ToolTip>
   <Icon icon="fa-solid fa-user-secret" />
@@ -34,8 +45,8 @@ setTimeout(() => {
       <h1>saxinfad</h1>
       <p>sakldas</p>
     </Alert>
-    <XButton plain>Plain Test</XButton>
-    <XButton round>Round</XButton>
+    <XButton plain @click="open">Plain Test</XButton>
+    <XButton round @click="close">Round</XButton>
     <XButton circle>VK</XButton>
     <XButton disabled>Disabled</XButton>
     <br />
