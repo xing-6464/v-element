@@ -11,6 +11,8 @@
 import Icon from '../Icon/Icon.vue'
 import type { AlertEvents, AlertProps } from './types'
 
+defineOptions({ name: 'XAlert' })
+
 defineProps<AlertProps>()
 defineEmits<AlertEvents>()
 </script>

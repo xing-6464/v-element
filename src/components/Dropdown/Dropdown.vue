@@ -40,6 +40,10 @@ import type {DropdownEmits, DropdownInstance, DropdownProps, MenuOption} from '.
 import type {TooltipInstance} from '../Tooltip/types'
 import RenderVNode from '../Common/RenderVNode'
 
+defineOptions({
+  name: 'XDropdown'
+})
+
 const props = withDefaults(defineProps<DropdownProps>(), {
   hideAfterClick: true
 })

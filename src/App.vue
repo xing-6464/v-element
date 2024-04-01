@@ -5,7 +5,7 @@ import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
-import Dropdown from './components/Dropdown/Dropdown.vue'
+import Dropdown from './components/Dropdown/Dropdown.tsx'
 import { TooltipInstance } from './components/Tooltip/types'
 import type { MenuOption } from './components/Dropdown/types'
 

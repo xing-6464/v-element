@@ -5,6 +5,12 @@ export interface DropdownProps extends TooltipProps {
   menuOptions: MenuOption[]
   hideAfterClick?: boolean
 }
+
+export interface DropdownPropsTsx extends TooltipProps {
+  menuOptions: MenuOption[]
+  closeAfterClick: boolean
+}
+
 export interface MenuOption {
   label: string | VNode
   key: string | number

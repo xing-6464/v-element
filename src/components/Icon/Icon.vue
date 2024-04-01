@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import type { IconProps } from './types.ts'
 
 defineOptions({
-  name: 'VIcon',
+  name: 'XIcon',
   inheritAttrs: false
 })
 const props = defineProps<IconProps>()

@@ -21,6 +21,10 @@ import { createPopper, type Instance } from '@popperjs/core'
 import useClickOutside from '../../hooks/useClickOutside'
 import { debounce } from 'lodash-es'
 
+defineOptions({
+  name: 'XTooltip'
+})
+
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: 'bottom',
   trigger: 'hover',
