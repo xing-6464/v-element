@@ -6,6 +6,7 @@ import Item from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
 import Dropdown from './components/Dropdown/Dropdown.vue'
+import Message from './components/Message/Message.vue'
 import type { TooltipInstance } from './components/Tooltip/types'
 import type { MenuOption } from './components/Dropdown/types'
 
@@ -44,6 +45,7 @@ setTimeout(() => {
 </script>
 
 <template>
+  <Message message="hello message" :duration="0" :show-close="true" />
     <Dropdown ref="tooltipRef" placement="bottom" :trigger="trigger" :menu-options="options" @visible-change="e => console.log(e)" @select="e => console.log(e)" >
       <img src="./assets/logo.svg" alt="hello" width="125" height="125">
     </Dropdown>
