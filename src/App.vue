@@ -10,13 +10,19 @@ import ToolTip from './components/Tooltip/ToolTip.vue'
 
 const openValue = ref(['a'])
 const size = ref<any>('3x')
+const trigger = ref<'click' | 'hover'>('hover')
+
+setTimeout(() => {
+  trigger.value = 'click' 
+}, 2000)
+
 setTimeout(() => {
   size.value = '2xl'
 }, 2000)
 </script>
 
 <template>
-  <ToolTip content="hello world" placement="bottom-start">
+  <ToolTip content="hello world" placement="bottom-start" :trigger="trigger">
     <img src="./assets/logo.svg" alt="hello" width="125" height="125">
   </ToolTip>
   <Icon icon="fa-solid fa-user-secret" />
