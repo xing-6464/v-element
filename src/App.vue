@@ -7,7 +7,6 @@ import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
 import ToolTip from './components/Tooltip/ToolTip.vue'
 import { TooltipInstance } from './components/Tooltip/types'
-import { Options } from '@popperjs/core'
 
 
 const openValue = ref(['a'])
