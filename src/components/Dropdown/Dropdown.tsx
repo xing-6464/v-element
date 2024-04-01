@@ -1,7 +1,8 @@
-import { defineComponent, computed, Fragment, type PropType } from 'vue'
+import { defineComponent, computed, Fragment, type PropType, ref } from 'vue'
 import Tooltip from '../Tooltip/Tooltip.vue'
 import type { Placement, Options } from '@popperjs/core'
 import type { MenuOption } from './types'
+import type { TooltipInstance } from '../Tooltip/types'
 
 export default defineComponent({
   name: 'XDropdown',
@@ -38,18 +39,44 @@ export default defineComponent({
       default: true,
     },
   },
-  setup(props, { slots }) {
+  emits: ['visible-change', 'select'],
+  setup(props, { slots, emit, expose }) {
+    const tooltipRef = ref<TooltipInstance | null>(null)
     const options = computed(() => {
       return props.menuOptions.map(item => {
         return (
           <Fragment key={item.key}>
             {item.divided ? <li role="separator" class="divided-placeholder" /> : ''}
-            <li class="x-dropdown__item" id={`dropdown-item-${item.key}`}>
+            <li
+              class={{
+                'x-dropdown__item': true,
+                'is-disabled': item.disabled,
+                'is-divided': item.divided,
+              }}
+              id={`dropdown-item-${item.key}`}
+              onClick={() => itemClick(item)}
+            >
               {item.label}
             </li>
           </Fragment>
         )
       })
+    })
+
+    const visibleChange = (e: boolean) => {
+      emit('visible-change', e)
+    }
+    const itemClick = (e: MenuOption) => {
+      if (e.disabled) return
+      emit('select', e)
+      if (props.closeAfterClick) {
+        tooltipRef.value?.hide()
+      }
+    }
+
+    expose({
+      show: () => tooltipRef.value?.show(),
+      hide: () => tooltipRef.value?.hide(),
     })
 
     return () => (
@@ -60,6 +87,8 @@ export default defineComponent({
           popperOptions={props.popperOptions}
           openDelay={props.openDelay}
           closeDelay={props.closeDelay}
+          ref={tooltipRef}
+          onVisible-change={visibleChange}
         >
           {{
             default: () => slots.default?.(),
