@@ -7,7 +7,7 @@
       :open-delay="openDelay"
       :close-delay="closeDelay"
       @visible-change="visibleChange"
-      ref="tooltip"
+      ref="tooltipRef"
     >
     <slot />
     <template #content>
@@ -24,7 +24,7 @@
             :class="{'is-disabled': item.disabled, 'is-divided': item.divided}"
             :id="`dropdown-item-${item.key}`"
           >
-            {{ item.label }}
+            <RenderVNode :v-node="item.label" />
           </li>
         </template>
       </ul>
@@ -38,8 +38,11 @@ import { ref, type Ref } from 'vue'
 import Tooltip from '../Tooltip/Tooltip.vue'
 import type {DropdownEmits, DropdownInstance, DropdownProps, MenuOption} from './types'
 import type {TooltipInstance} from '../Tooltip/types'
+import RenderVNode from '../Common/RenderVNode'
 
-const props = defineProps<DropdownProps>()
+const props = withDefaults(defineProps<DropdownProps>(), {
+  hideAfterClick: true
+})
 const emits = defineEmits<DropdownEmits>()
 const tooltipRef = ref() as Ref<TooltipInstance>
 
@@ -50,6 +53,10 @@ const visibleChange = (e: boolean) => {
 const itemClick = (e: MenuOption) => {
   if (e.disabled) return
   emits('select', e)
+  if (props.hideAfterClick) {
+    console.log('hide')
+    tooltipRef.value?.hide()
+  }
 }
 
 defineExpose<DropdownInstance>({
