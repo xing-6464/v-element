@@ -8,7 +8,7 @@ describe('Collapse.vue', async () => {
     const onChange = vi.fn()
     const wrapper = mount(Collapse, {
       props: {
-        modelValue: ['a']
+        modelValue: ['a'],
       },
       slots: {
         default: (
@@ -23,12 +23,12 @@ describe('Collapse.vue', async () => {
               content c
             </CollapseItem>
           </>
-        )
+        ),
       },
       global: {
-        stubs: ['Icon']
+        stubs: ['Icon'],
       },
-      attachTo: document.body
+      attachTo: document.body,
     })
 
     const headers = wrapper.findAll('.x-collapse-item__header')
@@ -58,7 +58,6 @@ describe('Collapse.vue', async () => {
     expect(secondContent.isVisible()).toBeTruthy()
     expect(wrapper.emitted()).toHaveProperty('change')
     const changeEvent = wrapper.emitted('change') as any[]
-    console.table(changeEvent)
     expect(changeEvent).toHaveLength(2)
     expect(changeEvent[0]).toEqual([[]])
     expect(changeEvent[1]).toEqual([['b']])

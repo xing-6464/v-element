@@ -15,7 +15,7 @@ describe('Tooltip.vue', () => {
         return (
           <div>
             <div id="outside"></div>
-            <ToolTip content="hello tooltip" trigger="click" onVisibleChange={onVisibleChange}>
+            <ToolTip content="hello tooltip" trigger="click" onVisible-change={onVisibleChange}>
               <button id="trigger">Trigger</button>
             </ToolTip>
           </div>
@@ -45,7 +45,7 @@ describe('Tooltip.vue', () => {
         return (
           <div>
             <div id="outside"></div>
-            <ToolTip content="hello tooltip" trigger="hover" onVisibleChange={onVisibleChange}>
+            <ToolTip content="hello tooltip" trigger="hover" onVisible-change={onVisibleChange}>
               <button id="trigger">Trigger</button>
             </ToolTip>
           </div>

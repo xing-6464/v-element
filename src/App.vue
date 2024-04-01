@@ -5,8 +5,8 @@ import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
-import Dropdown from './components/Dropdown/Dropdown'
-import { TooltipInstance } from './components/Tooltip/types'
+import Dropdown from './components/Dropdown/Dropdown.vue'
+import type { TooltipInstance } from './components/Tooltip/types'
 import type { MenuOption } from './components/Dropdown/types'
 
 
@@ -27,11 +27,11 @@ const tooltipRef = ref<TooltipInstance | null>(null)
 
 
 function open() {
-  tooltipRef.value.show()
+  tooltipRef.value?.show()
 }
 
 function close() {
-  tooltipRef.value.hide()
+  tooltipRef.value?.hide()
 }
 
 setTimeout(() => {
@@ -44,7 +44,7 @@ setTimeout(() => {
 </script>
 
 <template>
-    <Dropdown ref="tooltipRef" manual placement="bottom" :trigger="trigger" :menu-options="options" @visible-change="e => console.log(e)" @select="e => console.log(e)" >
+    <Dropdown ref="tooltipRef" placement="bottom" :trigger="trigger" :menu-options="options" @visible-change="e => console.log(e)" @select="e => console.log(e)" >
       <img src="./assets/logo.svg" alt="hello" width="125" height="125">
     </Dropdown>
   <Icon icon="fa-solid fa-user-secret" />

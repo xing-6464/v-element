@@ -58,7 +58,6 @@ const itemClick = (e: MenuOption) => {
   if (e.disabled) return
   emits('select', e)
   if (props.hideAfterClick) {
-    console.log('hide')
     tooltipRef.value?.hide()
   }
 }
