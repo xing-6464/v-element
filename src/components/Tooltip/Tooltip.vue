@@ -18,7 +18,7 @@
 import { computed, onUnmounted, reactive, ref, watch } from 'vue'
 import type { TooltipEmits, TooltipProps, TooltipInstance } from './types'
 import { createPopper, type Instance } from '@popperjs/core'
-import useClickOutside from '@/hooks/useClickOutside'
+import useClickOutside from '../../hooks/useClickOutside'
 import { debounce } from 'lodash-es'
 
 const props = withDefaults(defineProps<TooltipProps>(), {
@@ -102,14 +102,12 @@ useClickOutside(popperContainerNode, () => {
 })
 function open() {
   openTimes++
-  console.log('open times', openTimes)
   isOpen.value = true
   emits('visible-change', true)
 }
 
 function close() {
   closeTimes++
-  console.log('close times', closeTimes)
   isOpen.value = false
   emits('visible-change', false)
 }
@@ -129,7 +127,7 @@ if (!props.manual) {
 
 
 function togglePopper() {
-  if (isOpen.value) {
+  if (!isOpen.value) {
     openFinal()
   } else {
     closeFinal()

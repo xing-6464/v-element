@@ -23,6 +23,10 @@ function close() {
   tooltipRef.value.hide()
 }
 
+function visible(value) {
+  console.log(value)
+}
+
 setTimeout(() => {
   trigger.value = 'click' 
 }, 2000)
@@ -33,7 +37,7 @@ setTimeout(() => {
 </script>
 
 <template>
-  <ToolTip ref="tooltipRef" content="hello world" placement="right" >
+  <ToolTip ref="tooltipRef" content="hello world" trigger="hover" placement="right" on-visible-change="visible" >
     <img src="./assets/logo.svg" alt="hello" width="125" height="125">
   </ToolTip>
   <Icon icon="fa-solid fa-user-secret" />

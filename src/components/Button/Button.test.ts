@@ -8,32 +8,30 @@ describe('Button.vue', () => {
   test('basic button', () => {
     const wrapper = mount(Button, {
       props: {
-        type: 'primary'
+        type: 'primary',
       },
       slots: {
-        default: 'button'
-      }
+        default: 'button',
+      },
     })
 
-    console.log(wrapper.html())
     expect(wrapper.classes()).toContain('x-button--primary')
     // slot
     // get, find
     expect(wrapper.get('button').text()).toBe('button')
 
     wrapper.get('button').trigger('click')
-    console.log(wrapper.emitted())
     expect(wrapper.emitted()).toHaveProperty('click')
   })
 
   test('disabled button', () => {
     const wrapper = mount(Button, {
       props: {
-        disabled: true
+        disabled: true,
       },
       slots: {
-        default: 'button'
-      }
+        default: 'button',
+      },
     })
     // attributes
     expect(wrapper.attributes('disabled')).toBeDefined()
@@ -46,14 +44,14 @@ describe('Button.vue', () => {
   test('icon button', () => {
     const wrapper = mount(Button, {
       props: {
-        icon: 'arrow-up'
+        icon: 'arrow-up',
       },
       slots: {
-        default: 'icon'
+        default: 'icon',
       },
       global: {
-        stubs: ['FontAwesomeIcon']
-      }
+        stubs: ['FontAwesomeIcon'],
+      },
     })
 
     const iconElement = wrapper.findComponent(FontAwesomeIcon)
@@ -64,14 +62,14 @@ describe('Button.vue', () => {
   test('loading', () => {
     const wrapper = mount(Button, {
       props: {
-        loading: true
+        loading: true,
       },
       slots: {
-        default: 'loading'
+        default: 'loading',
       },
       global: {
-        stubs: ['Icon']
-      }
+        stubs: ['Icon'],
+      },
     })
 
     const iconElement = wrapper.findComponent(Icon)
