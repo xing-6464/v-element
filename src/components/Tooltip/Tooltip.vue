@@ -1,5 +1,5 @@
 <template>
-  <div class="x-tooltip" v-on="outerEvents">
+  <div class="x-tooltip" v-on="outerEvents" ref="popperContainerNode">
     <div class="x-tooltip__trigger" ref="triggerNode" v-on="events">
       <slot />
     </div>
@@ -15,6 +15,7 @@
 import { reactive, ref, watch } from 'vue'
 import type { TooltipEmits, TooltipProps } from './types'
 import { createPopper, type Instance } from '@popperjs/core'
+import useClickOutside from '@/hooks/useClickOutside'
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: 'bottom',
@@ -25,9 +26,16 @@ const emits = defineEmits<TooltipEmits>()
 const isOpen = ref(false)
 const popperNode = ref<HTMLElement>()
 const triggerNode = ref<HTMLElement>()
+const popperContainerNode = ref<HTMLElement>()
 let popperInstance: Instance | null = null
 let events: Record<string, any> = reactive({})
 let outerEvents: Record<string, any> = reactive({})
+
+useClickOutside(popperContainerNode, () => {
+  if (props.trigger === 'click' && isOpen.value) {
+    close()  
+  }
+})
 
 watch(isOpen, (newVal) => {
   if (newVal) {
