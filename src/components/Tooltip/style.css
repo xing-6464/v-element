@@ -1,0 +1,11 @@
+.x-tooltip {
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity var(--x-transition-duration)
+  }
+
+  .fade-enter-form,
+  .fade-leave-to {
+    opacity: 0;
+  }
+}

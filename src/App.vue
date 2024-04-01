@@ -7,6 +7,7 @@ import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
 import ToolTip from './components/Tooltip/ToolTip.vue'
 import { TooltipInstance } from './components/Tooltip/types'
+import { Options } from '@popperjs/core'
 
 
 const openValue = ref(['a'])
@@ -14,6 +15,7 @@ const size = ref<any>('3x')
 const trigger = ref<'click' | 'hover'>('hover')
 
 const tooltipRef = ref<TooltipInstance | null>(null)
+const options: Partial<Options> = {placement: 'right-end', strategy: 'fixed'}
 
 function open() {
   tooltipRef.value.show()
@@ -33,7 +35,7 @@ setTimeout(() => {
 </script>
 
 <template>
-  <ToolTip ref="tooltipRef" content="hello world" placement="bottom-start" trigger="click" manual>
+  <ToolTip ref="tooltipRef" content="hello world" placement="bottom-start" trigger="click" manual :popper-options="options">
     <img src="./assets/logo.svg" alt="hello" width="125" height="125">
   </ToolTip>
   <Icon icon="fa-solid fa-user-secret" />

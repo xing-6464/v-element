@@ -3,23 +3,26 @@
     <div class="x-tooltip__trigger" ref="triggerNode" v-on="events">
       <slot />
     </div>
-    <div v-if="isOpen" class="x-tooltip__popper" ref="popperNode">
-      <slot name="content">
-        {{ content }}
-      </slot>
-    </div>
+    <Transition :name="transition">
+      <div v-if="isOpen" class="x-tooltip__popper" ref="popperNode">
+        <slot name="content">
+          {{ content }}
+        </slot>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, reactive, ref, watch } from 'vue'
+import { computed, onUnmounted, reactive, ref, watch } from 'vue'
 import type { TooltipEmits, TooltipProps, TooltipInstance } from './types'
 import { createPopper, type Instance } from '@popperjs/core'
 import useClickOutside from '@/hooks/useClickOutside'
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: 'bottom',
-  trigger: 'hover'
+  trigger: 'hover',
+  transition: 'fade'
 })
 const emits = defineEmits<TooltipEmits>()
 
@@ -30,6 +33,13 @@ const popperContainerNode = ref<HTMLElement>()
 let popperInstance: Instance | null = null
 let events: Record<string, any> = reactive({})
 let outerEvents: Record<string, any> = reactive({})
+const popperOptions = computed(() => {
+  return {
+    placement: props.placement,
+    ...props.popperOptions
+  }
+})
+
 
 useClickOutside(popperContainerNode, () => {
   if (props.trigger === 'click' && isOpen.value && !props.manual) {
@@ -40,9 +50,7 @@ useClickOutside(popperContainerNode, () => {
 watch(isOpen, (newVal) => {
   if (newVal) {
     if (triggerNode.value && popperNode.value) {
-      popperInstance = createPopper(triggerNode.value, popperNode.value, {
-        placement: props.placement
-      })
+      popperInstance = createPopper(triggerNode.value, popperNode.value, popperOptions.value)
     } else {
       popperInstance?.destroy()
     }
