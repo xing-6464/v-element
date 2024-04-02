@@ -45,7 +45,8 @@ const topOffset = computed(() => props.offset + lastOffset.value)
 // 这个 element 为下一个 element 预留 offset，也就是它最低端 bottom的值
 const bottomOffset = computed(() => parseInt(height.value + topOffset.value))
 const cssStyle = computed(() => ({
-  top: topOffset.value + 'px'
+  top: topOffset.value + 'px',
+  zIndex: props.zIndex
 }))
 
 watch(visible, (newVal) => {
@@ -69,7 +70,8 @@ onMounted(async () => {
 })
 
 defineExpose({
-  bottomOffset
+  bottomOffset,
+  visible
 })
 </script>
 

@@ -10,9 +10,13 @@ const openValue = ref(['a'])
 
 
 onMounted(() => {
-  createMessage({message: 'hello world', duration: 0})
+  const instance = createMessage({message: 'hello world', duration: 0})
   createMessage({message: 'hello world world', duration: 0})
   createMessage({message: 'hello world world world', duration: 0 })
+
+  setTimeout(() => {
+    instance.destory()
+  }, 2000)
 })
 
 </script>
