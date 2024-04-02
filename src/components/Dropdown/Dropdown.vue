@@ -9,35 +9,31 @@
       @visible-change="visibleChange"
       ref="tooltipRef"
     >
-    <slot />
-    <template #content>
-      <ul class="x-dropdown__menu">
-        <template v-for="item in menuOptions" :key="item.key">
-          <li
-            v-if="item.divided"
-            role="separator"
-            class="divided-placeholder"
-          />
-          <li
-            class="x-dropdown__item"
-            @click="itemClick(item)"
-            :class="{'is-disabled': item.disabled, 'is-divided': item.divided}"
-            :id="`dropdown-item-${item.key}`"
-          >
-            <RenderVNode :v-node="item.label" />
-          </li>
-        </template>
-      </ul>
-    </template>
-  </Tooltip>
+      <slot />
+      <template #content>
+        <ul class="x-dropdown__menu">
+          <template v-for="item in menuOptions" :key="item.key">
+            <li v-if="item.divided" role="separator" class="divided-placeholder" />
+            <li
+              class="x-dropdown__item"
+              @click="itemClick(item)"
+              :class="{ 'is-disabled': item.disabled, 'is-divided': item.divided }"
+              :id="`dropdown-item-${item.key}`"
+            >
+              <RenderVNode :v-node="item.label" />
+            </li>
+          </template>
+        </ul>
+      </template>
+    </Tooltip>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, type Ref } from 'vue'
 import Tooltip from '../Tooltip/Tooltip.vue'
-import type {DropdownEmits, DropdownInstance, DropdownProps, MenuOption} from './types'
-import type {TooltipInstance} from '../Tooltip/types'
+import type { DropdownEmits, DropdownInstance, DropdownProps, MenuOption } from './types'
+import type { TooltipInstance } from '../Tooltip/types'
 import RenderVNode from '../Common/RenderVNode'
 
 defineOptions({
@@ -64,6 +60,6 @@ const itemClick = (e: MenuOption) => {
 
 defineExpose<DropdownInstance>({
   show: () => tooltipRef.value?.show(),
-  hide: () => tooltipRef.value?.hide() 
+  hide: () => tooltipRef.value?.hide()
 })
 </script>

@@ -2,7 +2,7 @@
   <Transition :name="transitionName" @afterLeave="destoryComponent" @enter="updateHight">
     <div
       ref="messageRef"
-      class="x-message" 
+      class="x-message"
       v-show="visible"
       :class="{
         [`x-message--${type}`]: type,
@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import RenderVNode from '../Common/RenderVNode'
 import Icon from '../Icon/Icon.vue'
-import { ref, onMounted,computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import type { MessageProps } from './types'
 import { getLastBottomOffset } from './method'
 import useEventListener from '../../hooks/useEventListener'

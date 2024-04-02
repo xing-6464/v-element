@@ -59,35 +59,43 @@ const popperOptions = computed(() => {
   }
 })
 
+watch(
+  isOpen,
+  (newVal) => {
+    if (newVal) {
+      if (triggerNode.value && popperNode.value) {
+        popperInstance = createPopper(triggerNode.value, popperNode.value, popperOptions.value)
+      } else {
+        popperInstance?.destroy()
+      }
+    }
+  },
+  { flush: 'post' }
+)
 
-
-watch(isOpen, (newVal) => {
-  if (newVal) {
-    if (triggerNode.value && popperNode.value) {
-      popperInstance = createPopper(triggerNode.value, popperNode.value, popperOptions.value)
-    } else {
-      popperInstance?.destroy()
+watch(
+  () => props.trigger,
+  (newTrigger, oldTrigger) => {
+    if (newTrigger !== oldTrigger) {
+      //  clear the events
+      events = {}
+      outerEvents = {}
+      attachEvents()
     }
   }
-}, { flush: 'post' })
+)
 
-watch(() => props.trigger, (newTrigger, oldTrigger) => {
-  if (newTrigger !== oldTrigger) {
-    //  clear the events
-    events = {}
-    outerEvents = {}
-    attachEvents()
+watch(
+  () => props.manual,
+  (newV) => {
+    if (newV) {
+      events = {}
+      outerEvents = {}
+    } else {
+      attachEvents()
+    }
   }
-})
-
-watch(() => props.manual, (newV) => {
-  if (newV) {
-    events = {}
-    outerEvents = {}
-  } else {
-    attachEvents()
-  }
-})
+)
 const openDebounce = debounce(open, props.openDelay)
 const closeDebounce = debounce(close, props.closeDelay)
 const openFinal = () => {
@@ -129,7 +137,6 @@ if (!props.manual) {
   attachEvents()
 }
 
-
 function togglePopper() {
   if (!isOpen.value) {
     openFinal()
@@ -142,7 +149,7 @@ onUnmounted(() => {
   popperInstance?.destroy()
 })
 defineExpose<TooltipInstance>({
-  'show': openFinal,
-  'hide': closeFinal
+  show: openFinal,
+  hide: closeFinal
 })
 </script>
