@@ -20,16 +20,22 @@
 </template>
 
 <script lang="ts" setup>
-import type { MessageProps } from './types'
 import RenderVNode from '../Common/RenderVNode'
 import Icon from '../Icon/Icon.vue'
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import type { MessageProps } from './types'
 
 const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',
   duration: 3000
 })
 const visible = ref(false)
+
+watch(visible, (newVal) => {
+  if (!newVal) {
+    props.onDestory()
+  }
+})
 
 function startTime() {
   if (props.duration === 0) return
@@ -42,8 +48,6 @@ onMounted(() => {
   visible.value = true
   startTime()
 })
-
-
 </script>
 
 <style>

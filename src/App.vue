@@ -38,7 +38,7 @@ function close() {
 
 onMounted(() => {
   createMessage({message: 'hello world', duration: 0})
-  createMessage({message: 'hello world world', duration: 0})
+  createMessage({message: 'hello world world'})
 
   setTimeout(() => {
     size.value = '2xl'
