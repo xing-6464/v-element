@@ -27,7 +27,7 @@ import RenderVNode from '../Common/RenderVNode'
 import Icon from '../Icon/Icon.vue'
 import { ref, onMounted, watch, computed, nextTick } from 'vue'
 import type { MessageProps } from './types'
-import { getLastInstance, getLastBottomOffset } from './method';
+import { getLastBottomOffset } from './method';
 
 const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',

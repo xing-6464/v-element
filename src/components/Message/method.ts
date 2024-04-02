@@ -1,14 +1,16 @@
-import { render, h, onUnmounted, nextTick } from 'vue'
+import { render, h, shallowReactive } from 'vue'
 import type { CreateMessageProps, MessageContext } from './types'
 import MessageConstructor from './Message.vue'
 
 let seed = 1
-let instances: MessageContext[] = []
+const instances: MessageContext[] = shallowReactive([])
 export const createMessage = (props: CreateMessageProps) => {
   const id = `message_${seed++}`
   const container = document.createElement('div')
   const destory = () => {
-    instances = instances.filter(value => value.id !== id)
+    const idx = instances.findIndex(instance => instance.id === id)
+    if (idx === -1) return
+    instances.splice(idx, 1)
     render(null, container)
   }
   const newProps = {
@@ -36,7 +38,6 @@ export const getLastInstance = () => {
 }
 
 export const getLastBottomOffset = (id: string) => {
-  // await nextTick()
   const idx = instances.findIndex(instance => instance.id === id)
   if (idx <= 0) {
     return 0
