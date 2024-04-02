@@ -1,10 +1,14 @@
 import { render, h, onUnmounted } from 'vue'
-import type { CreateMessageProps } from './types'
+import type { CreateMessageProps, MessageContext } from './types'
 import MessageConstructor from './Message.vue'
 
+let seed = 1
+let instances: MessageContext[] = []
 export const createMessage = (props: CreateMessageProps) => {
+  const id = `message_${seed++}`
   const container = document.createElement('div')
   const destory = () => {
+    instances = instances.filter(value => value.id !== id)
     render(null, container)
   }
   const newProps = {
@@ -17,5 +21,15 @@ export const createMessage = (props: CreateMessageProps) => {
 
   document.body.appendChild(container.firstElementChild!)
 
-  onUnmounted(() => {})
+  const instance = {
+    id,
+    vnode,
+    props: newProps,
+  }
+  instances.push(instance)
+  return instance
+}
+
+export const getLastInstance = () => {
+  return instances.at(-1)
 }

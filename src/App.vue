@@ -1,70 +1,28 @@
 <script setup lang="ts">
-import { h, ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import XButton from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
-import Icon from './components/Icon/Icon.vue'
-import Alert from './components/Alert/Alert.vue'
-import Dropdown from './components/Dropdown/Dropdown.vue'
-import Message from './components/Message/Message.vue'
 import { createMessage } from './components/Message/method'
-import type { TooltipInstance } from './components/Tooltip/types'
-import type { MenuOption } from './components/Dropdown/types'
 
 
 const openValue = ref(['a'])
-const size = ref<any>('3x')
-const trigger = ref<'click' | 'hover'>('click')
-const options: MenuOption[] = [
-  {
-    key: 1,
-    label: h('b', 'item1')
-  },
-  { key: 2, label: 'item2', disabled: true },
-  { key: 3, label: 'item3', divided: true },
-  { key: 4, label: 'item4' } 
-]
 
-const tooltipRef = ref<TooltipInstance | null>(null)
-
-
-function open() {
-  tooltipRef.value?.show()
-}
-
-function close() {
-  tooltipRef.value?.hide()
-}
 
 onMounted(() => {
   createMessage({message: 'hello world', duration: 0})
-  createMessage({message: 'hello world world'})
-
-  setTimeout(() => {
-    size.value = '2xl'
-  }, 2000)
+  createMessage({message: 'hello world world', duration: 0})
+  createMessage({message: 'hello world world world', duration: 0 })
 })
 
 </script>
 
 <template>
   <!-- <Message message="hello message" :duration="0" :show-close="true" /> -->
-    <Dropdown ref="tooltipRef" placement="bottom" :trigger="trigger" :menu-options="options" @visible-change="e => console.log(e)" @select="e => console.log(e)" >
-      <img src="./assets/logo.svg" alt="hello" width="125" height="125">
-    </Dropdown>
-  <Icon icon="fa-solid fa-user-secret" />
-  <Icon icon="arrow-up" :size="size" type="danger" color="#0e7a0d" />
   <main>
-    <Alert content="this is Alert" type="primary" />
-    <Alert content="this is Alert" type="info" closable />
-    <Alert>
-      <h1>saxinfad</h1>
-      <p>sakldas</p>
-    </Alert>
-    <XButton plain @click="open">Plain Test</XButton>
-    <XButton round @click="close">Round</XButton>
-    <XButton circle>VK</XButton>
-    <XButton disabled>Disabled</XButton>
+    <XButton plain type="primary">Plain Test</XButton>
+    <XButton plain type="success">Plain Test</XButton>
+    <XButton plain type="info">Plain Test</XButton>
     <br />
     <br />
     <XButton size="large" loading>Loading</XButton>

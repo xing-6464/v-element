@@ -22,14 +22,18 @@
 <script lang="ts" setup>
 import RenderVNode from '../Common/RenderVNode'
 import Icon from '../Icon/Icon.vue'
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch } from 'vue'
 import type { MessageProps } from './types'
+import { getLastInstance } from './method'
 
 const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',
   duration: 3000
 })
 const visible = ref(false)
+
+const prevInstance = getLastInstance()
+console.log('prev', prevInstance)
 
 watch(visible, (newVal) => {
   if (!newVal) {
