@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { h, ref, onMounted } from 'vue';
 import XButton from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
@@ -7,6 +7,7 @@ import Icon from './components/Icon/Icon.vue'
 import Alert from './components/Alert/Alert.vue'
 import Dropdown from './components/Dropdown/Dropdown.vue'
 import Message from './components/Message/Message.vue'
+import { createMessage } from './components/Message/method'
 import type { TooltipInstance } from './components/Tooltip/types'
 import type { MenuOption } from './components/Dropdown/types'
 
@@ -35,17 +36,19 @@ function close() {
   tooltipRef.value?.hide()
 }
 
-setTimeout(() => {
-  trigger.value = 'click' 
-}, 2000)
+onMounted(() => {
+  createMessage({message: 'hello world', duration: 0})
+  createMessage({message: 'hello world world', duration: 0})
 
-setTimeout(() => {
-  size.value = '2xl'
-}, 2000)
+  setTimeout(() => {
+    size.value = '2xl'
+  }, 2000)
+})
+
 </script>
 
 <template>
-  <Message message="hello message" :duration="0" :show-close="true" />
+  <!-- <Message message="hello message" :duration="0" :show-close="true" /> -->
     <Dropdown ref="tooltipRef" placement="bottom" :trigger="trigger" :menu-options="options" @visible-change="e => console.log(e)" @select="e => console.log(e)" >
       <img src="./assets/logo.svg" alt="hello" width="125" height="125">
     </Dropdown>
