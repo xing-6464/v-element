@@ -12,6 +12,7 @@
   >
     <div class="x-message__content">
       <slot>
+        {{ offset }} -- {{ topOffset }} -- {{ height }} -- {{ bottomOffset }}
         <RenderVNode :vNode="message" v-if="message" />
       </slot>
     </div>
@@ -38,11 +39,11 @@ const messageRef = ref<HTMLElement | null>(null)
 // 计算高度
 const height = ref(0)
 // 上一个实例的最下面的坐标数字，第一个是0
-const lastOffset = computed(() => getLastBottomOffset())
+const lastOffset = computed(() => getLastBottomOffset(props.id))
 // 这个element的top
 const topOffset = computed(() => props.offset + lastOffset.value)
 // 这个 element 为下一个 element 预留 offset，也就是它最低端 bottom的值
-const bottomOffset = computed(() => height.value + topOffset.value)
+const bottomOffset = computed(() => parseInt(height.value + topOffset.value))
 const cssStyle = computed(() => ({
   top: topOffset.value + 'px'
 }))

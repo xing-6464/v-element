@@ -1,6 +1,7 @@
-import type { VNode } from 'vue'
+import type { ComponentInternalInstance, VNode } from 'vue'
 
 export interface MessageProps {
+  id: string
   message?: string | VNode
   duration?: number
   showClose?: boolean
@@ -13,6 +14,7 @@ export interface MessageContext {
   id: string
   vnode: VNode
   props: MessageProps
+  vm: ComponentInternalInstance
 }
 
-export type CreateMessageProps = Omit<MessageProps, 'onDestory'>
+export type CreateMessageProps = Omit<MessageProps, 'onDestory' | 'id'>
