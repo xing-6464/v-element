@@ -33,9 +33,3 @@ defineExpose({
   ref: _ref
 })
 </script>
-
-<style>
-.x-button {
-  background-color: var(--main-bg-color);
-}
-</style>
