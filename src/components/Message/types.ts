@@ -6,6 +6,7 @@ export interface MessageProps {
   showClose?: boolean
   type?: 'success' | 'info' | 'warning' | 'error'
   onDestory: () => void
+  offset?: number
 }
 
 export interface MessageContext {

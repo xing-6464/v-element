@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="messageRef"
     class="x-message" 
     v-show="visible"
     :class="{
@@ -7,6 +8,7 @@
       'is-close': showClose
     }"
     role="alert"
+    :style="cssStyle"
   >
     <div class="x-message__content">
       <slot>
@@ -22,18 +24,28 @@
 <script lang="ts" setup>
 import RenderVNode from '../Common/RenderVNode'
 import Icon from '../Icon/Icon.vue'
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed, nextTick } from 'vue'
 import type { MessageProps } from './types'
-import { getLastInstance } from './method'
+import { getLastInstance, getLastBottomOffset } from './method';
 
 const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',
-  duration: 3000
+  duration: 3000,
+  offset: 20
 })
 const visible = ref(false)
-
-const prevInstance = getLastInstance()
-console.log('prev', prevInstance)
+const messageRef = ref<HTMLElement | null>(null)
+// 计算高度
+const height = ref(0)
+// 上一个实例的最下面的坐标数字，第一个是0
+const lastOffset = computed(() => getLastBottomOffset())
+// 这个element的top
+const topOffset = computed(() => props.offset + lastOffset.value)
+// 这个 element 为下一个 element 预留 offset，也就是它最低端 bottom的值
+const bottomOffset = computed(() => height.value + topOffset.value)
+const cssStyle = computed(() => ({
+  top: topOffset.value + 'px'
+}))
 
 watch(visible, (newVal) => {
   if (!newVal) {
@@ -48,9 +60,15 @@ function startTime() {
   }, props.duration)
 }
 
-onMounted(() => {
+onMounted(async () => {
   visible.value = true
   startTime()
+  await nextTick()
+  height.value = messageRef.value!.getBoundingClientRect().height
+})
+
+defineExpose({
+  bottomOffset
 })
 </script>
 
