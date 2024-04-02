@@ -22,6 +22,7 @@ export const createMessage = (props: CreateMessageProps) => {
       instance.vm.exposed!.visible.value = false
     }
   }
+
   const newProps = {
     ...props,
     id,

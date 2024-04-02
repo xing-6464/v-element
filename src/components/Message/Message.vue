@@ -9,6 +9,8 @@
     }"
     role="alert"
     :style="cssStyle"
+    @mouseenter="clearTime"
+    @mouseleave="startTime"
   >
     <div class="x-message__content">
       <slot>
@@ -27,7 +29,8 @@ import RenderVNode from '../Common/RenderVNode'
 import Icon from '../Icon/Icon.vue'
 import { ref, onMounted, watch, computed, nextTick } from 'vue'
 import type { MessageProps } from './types'
-import { getLastBottomOffset } from './method';
+import { getLastBottomOffset } from './method'
+import useEventListener from '../../hooks/useEventListener'
 
 const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',
@@ -49,17 +52,29 @@ const cssStyle = computed(() => ({
   zIndex: props.zIndex
 }))
 
+function keydown(e: Event) {
+  const event = e as KeyboardEvent
+  if (event.code === 'Escape') {
+    visible.value = false
+  }
+}
+useEventListener(document, 'keydown', keydown)
 watch(visible, (newVal) => {
   if (!newVal) {
     props.onDestory()
   }
 })
 
+let timer: NodeJS.Timeout
 function startTime() {
   if (props.duration === 0) return
-  setTimeout(() => {
+  timer = setTimeout(() => {
     visible.value = false
   }, props.duration)
+}
+
+function clearTime() {
+  clearTimeout(timer)
 }
 
 onMounted(async () => {
