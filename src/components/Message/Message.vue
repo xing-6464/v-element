@@ -1,33 +1,34 @@
 <template>
-  <div
-    ref="messageRef"
-    class="x-message" 
-    v-show="visible"
-    :class="{
-      [`x-message--${type}`]: type,
-      'is-close': showClose
-    }"
-    role="alert"
-    :style="cssStyle"
-    @mouseenter="clearTime"
-    @mouseleave="startTime"
-  >
-    <div class="x-message__content">
-      <slot>
-        {{ offset }} -- {{ topOffset }} -- {{ height }} -- {{ bottomOffset }}
-        <RenderVNode :vNode="message" v-if="message" />
-      </slot>
+  <Transition :name="transitionName" @afterLeave="destoryComponent" @enter="updateHight">
+    <div
+      ref="messageRef"
+      class="x-message" 
+      v-show="visible"
+      :class="{
+        [`x-message--${type}`]: type,
+        'is-close': showClose
+      }"
+      role="alert"
+      :style="cssStyle"
+      @mouseenter="clearTime"
+      @mouseleave="startTime"
+    >
+      <div class="x-message__content">
+        <slot>
+          <RenderVNode :vNode="message" v-if="message" />
+        </slot>
+      </div>
+      <div class="x-message__close" v-if="showClose">
+        <Icon icon="xmark" @click.stop="visible = false" />
+      </div>
     </div>
-    <div class="x-message__close" v-if="showClose">
-      <Icon icon="xmark" @click.stop="visible = false" />
-    </div>
-  </div>
+  </Transition>
 </template>
 
 <script lang="ts" setup>
 import RenderVNode from '../Common/RenderVNode'
 import Icon from '../Icon/Icon.vue'
-import { ref, onMounted, watch, computed, nextTick } from 'vue'
+import { ref, onMounted,computed } from 'vue'
 import type { MessageProps } from './types'
 import { getLastBottomOffset } from './method'
 import useEventListener from '../../hooks/useEventListener'
@@ -35,7 +36,8 @@ import useEventListener from '../../hooks/useEventListener'
 const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',
   duration: 3000,
-  offset: 20
+  offset: 20,
+  transitionName: 'fade-up'
 })
 const visible = ref(false)
 const messageRef = ref<HTMLElement | null>(null)
@@ -59,11 +61,18 @@ function keydown(e: Event) {
   }
 }
 useEventListener(document, 'keydown', keydown)
-watch(visible, (newVal) => {
-  if (!newVal) {
-    props.onDestory()
-  }
-})
+// watch(visible, (newVal) => {
+//   if (!newVal) {
+//     props.onDestory()
+//   }
+// })
+function destoryComponent() {
+  props.onDestory()
+}
+
+function updateHight() {
+  height.value = messageRef.value!.getBoundingClientRect().height
+}
 
 let timer: NodeJS.Timeout
 function startTime() {
@@ -80,8 +89,8 @@ function clearTime() {
 onMounted(async () => {
   visible.value = true
   startTime()
-  await nextTick()
-  height.value = messageRef.value!.getBoundingClientRect().height
+  // await nextTick()
+  // height.value = messageRef.value!.getBoundingClientRect().height
 })
 
 defineExpose({
@@ -89,14 +98,3 @@ defineExpose({
   visible
 })
 </script>
-
-<style>
-.x-message {
-  width: max-content;
-  position: fixed;
-  left: 50%;
-  top: 20px;
-  transform: translateX(-50%);
-  border: 1px solid blue;
-}
-</style>

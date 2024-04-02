@@ -11,8 +11,8 @@ const openValue = ref(['a'])
 
 onMounted(() => {
   createMessage({message: 'hello world', duration: 3000})
-  createMessage({message: 'hello world world', duration: 0})
-  createMessage({message: 'hello world world world', duration: 0 })
+  createMessage({message: 'hello world world', duration: 0, type: 'success', showClose: true})
+  createMessage({message: 'hello world world world', duration: 0, type: 'warning'})
 })
 
 </script>

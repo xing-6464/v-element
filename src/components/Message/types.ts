@@ -9,6 +9,7 @@ export interface MessageProps {
   onDestory: () => void
   offset?: number
   zIndex: number
+  transitionName?: string
 }
 
 export interface MessageContext {
