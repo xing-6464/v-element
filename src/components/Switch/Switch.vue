@@ -18,6 +18,11 @@
       @keydown.enter="switchValue"
     />
     <div class="x-switch__core">
+      <div class="x-switch__core-inner">
+        <span v-if="activeText || inactiveText" class="x-switch__core-inner-text">
+          {{ checked ? activeText : inactiveText }}
+        </span>
+      </div>
       <div class="x-switch__core-action"></div>
     </div>
   </div>
@@ -31,13 +36,16 @@ defineOptions({
   name: 'XSwitch',
   inheritAttrs: false
 })
-const props = defineProps<SwitchProps>()
+const props = withDefaults(defineProps<SwitchProps>(), {
+  activeValue: true,
+  inactiveValue: false
+})
 const emits = defineEmits<SwitchEmits>()
 
 const input = ref<HTMLInputElement>()
 const innerValue = ref(props.modelValue)
 // 现在是否被选中
-const checked = computed(() => innerValue.value)
+const checked = computed(() => innerValue.value === props.activeValue)
 
 watch(checked, (val) => {
   input.value!.checked = val
@@ -52,9 +60,10 @@ watch(
 
 const switchValue = () => {
   if (props.disabled) return
-  innerValue.value = !checked.value
-  emits('update:modelValue', innerValue.value)
-  emits('change', innerValue.value)
+  const newValue = checked.value ? props.inactiveValue : props.activeValue
+  innerValue.value = newValue
+  emits('update:modelValue', newValue)
+  emits('change', newValue)
 }
 
 onMounted(() => {
