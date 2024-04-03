@@ -30,6 +30,7 @@
           @input="handleInput"
           @focus="handleFocus"
           @blur="handleBlur"
+          @change="handleChange"
         />
         <!-- suffix slot -->
         <span v-if="$slots.suffix || showClear || showPasswordArea" class="x-input__suffix">
@@ -63,6 +64,7 @@
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
+        @change="handleChange"
       />
     </template>
   </div>
@@ -99,15 +101,24 @@ const togglePasswordVisible = () => {
 }
 const handleInput = () => {
   emits('update:modelValue', innerValue.value)
+  emits('input', innerValue.value)
 }
-const handleFocus = () => {
+const handleChange = () => {
+  emits('change', innerValue.value)
+}
+const handleFocus = (e: FocusEvent) => {
   isFocus.value = true
+  emits('focus', e)
 }
-const handleBlur = () => {
+const handleBlur = (e: FocusEvent) => {
   isFocus.value = false
+  emits('blur', e)
 }
 const clear = () => {
   innerValue.value = ''
   emits('update:modelValue', '')
+  emits('clear')
+  emits('change', '')
+  emits('input', '')
 }
 </script>

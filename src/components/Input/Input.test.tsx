@@ -52,9 +52,16 @@ describe('Input', () => {
     const input = wrapper.get('input')
     expect(input.element.value).toBe('test')
     // 更新值
+    // setValue 是组合事件会触发 input 以及 change
     await input.setValue('update')
     expect(wrapper.props('modelValue')).toBe('update')
     expect(input.element.value).toBe('update')
+    expect(wrapper.emitted()).toHaveProperty('input')
+    expect(wrapper.emitted()).toHaveProperty('change')
+    const inputEvent = wrapper.emitted('input')
+    const changeEvent = wrapper.emitted('change')
+    expect(inputEvent![0]).toEqual(['update'])
+    expect(changeEvent![0]).toEqual(['update'])
     // v-model 的异步更新
     await wrapper.setProps({ modelValue: 'prop update' })
     expect(wrapper.props('modelValue')).toBe('prop update')
@@ -75,13 +82,25 @@ describe('Input', () => {
     expect(wrapper.find('.x-input__clear').exists()).toBeFalsy()
     const input = wrapper.get('input')
     await input.trigger('focus')
+    expect(wrapper.emitted()).toHaveProperty('focus')
     // 出现Icon区域
     expect(wrapper.find('.x-input__clear').exists()).toBeTruthy()
     await wrapper.get('.x-input__clear').trigger('click')
     expect(input.element.value).toBe('')
+    // 点击值为空不仅会触发 clear 还会触发 input 和 change事件
+    expect(wrapper.emitted()).toHaveProperty('input')
+    expect(wrapper.emitted()).toHaveProperty('change')
+    expect(wrapper.emitted()).toHaveProperty('clear')
+    const inputEvent = wrapper.emitted('input')
+    const changeEvent = wrapper.emitted('change')
+    expect(inputEvent![0]).toEqual([''])
+    expect(changeEvent![0]).toEqual([''])
+
+    await input.trigger('blur')
+    expect(wrapper.emitted()).toHaveProperty('blur')
   })
 
-  it.only('支持切换密码显示', async () => {
+  it('支持切换密码显示', async () => {
     const wrapper = mount(Input, {
       props: {
         modelValue: '',
