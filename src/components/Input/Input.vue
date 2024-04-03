@@ -2,8 +2,8 @@
   <div
     class="x-input"
     :class="{
-      [`x-input-${type}`]: type,
-      [`x-input-${size}`]: size,
+      [`x-input--${type}`]: type,
+      [`x-input--${size}`]: size,
       'is-disabled': disabled,
       'is-prepend': $slots.prepend,
       'is-append': $slots.append,
@@ -13,7 +13,7 @@
   >
     <!-- input -->
     <template v-if="type !== 'textarea'">
-      <div v-if="$slots.prepped" class="x-input__prepend">
+      <div v-if="$slots.prepend" class="x-input__prepend">
         <slot name="prepend" />
       </div>
       <div class="x-input__wrapper">
