@@ -8,7 +8,8 @@
       'is-prepend': $slots.prepend,
       'is-append': $slots.append,
       'is-prefix': $slots.prefix,
-      'is-suffix': $slots.suffix
+      'is-suffix': $slots.suffix,
+      'is-focus': isFocus
     }"
   >
     <!-- input -->
@@ -27,10 +28,13 @@
           :disabled="disabled"
           v-model="innerValue"
           @input="handleInput"
+          @focus="handleFocus"
+          @blur="handleBlur"
         />
         <!-- suffix slot -->
-        <span v-if="$slots.suffix" class="x-input__suffix">
+        <span v-if="$slots.suffix || showClear" class="x-input__suffix">
           <slot name="suffix" />
+          <Icon icon="circle-xmark" v-if="showClear" class="x-input__clear" @click="clear" />
         </span>
       </div>
       <!-- append slot -->
@@ -45,13 +49,16 @@
         :disabled="disabled"
         v-model="innerValue"
         @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
       />
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
+import Icon from '../Icon/Icon.vue'
 import type { InputEmits, InputProps } from './types'
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -59,13 +66,29 @@ const props = withDefaults(defineProps<InputProps>(), {
 })
 const emits = defineEmits<InputEmits>()
 const innerValue = ref(props.modelValue)
-const handleInput = () => {
-  emits('update:modelValue', innerValue.value)
-}
+const isFocus = ref(false)
+
+const showClear = computed(() => {
+  return props.clearable && !props.disabled && !!innerValue.value && isFocus.value
+})
+
 watch(
   () => props.modelValue,
   (value) => {
     innerValue.value = value
   }
 )
+const handleInput = () => {
+  emits('update:modelValue', innerValue.value)
+}
+const handleFocus = () => {
+  isFocus.value = true
+}
+const handleBlur = () => {
+  isFocus.value = false
+}
+const clear = () => {
+  innerValue.value = ''
+  emits('update:modelValue', '')
+}
 </script>

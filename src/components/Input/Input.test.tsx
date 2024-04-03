@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { VueWrapper, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Input from './Input.vue'
 
@@ -47,7 +47,7 @@ describe('Input', () => {
         modelValue: 'test',
         'onUpdate:modelValue': (e: any) => wrapper.setProps({ modelValue: e })
       }
-    })
+    }) as VueWrapper<any>
     // 初始值
     const input = wrapper.get('input')
     expect(input.element.value).toBe('test')
@@ -58,5 +58,26 @@ describe('Input', () => {
     // v-model 的异步更新
     await wrapper.setProps({ modelValue: 'prop update' })
     expect(wrapper.props('modelValue')).toBe('prop update')
+  })
+
+  it.only('支持点击清空字符串', async () => {
+    const wrapper = mount(Input, {
+      props: {
+        modelValue: 'test',
+        clearable: true,
+        type: 'text'
+      },
+      global: {
+        stubs: ['Icon']
+      }
+    })
+    // 不出现对应的 Icon 区域
+    expect(wrapper.find('.x-input__clear').exists()).toBeFalsy()
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    // 出现Icon区域
+    expect(wrapper.find('.x-input__clear').exists()).toBeTruthy()
+    await wrapper.get('.x-input__clear').trigger('click')
+    expect(input.element.value).toBe('')
   })
 })
