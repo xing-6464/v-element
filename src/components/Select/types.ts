@@ -14,6 +14,11 @@ export interface SelectProps {
   disabled: boolean
 }
 
+export interface SelectStates {
+  inputValue: string
+  selectedOption: null | SelectOption
+}
+
 export interface SelectEmits {
   (e: 'change', value: string): void
   (e: 'update:modelValue', value: string): void
