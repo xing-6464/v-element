@@ -1,0 +1,49 @@
+.x-switch {
+  --x-switch-on-color: var(--x-color-primary);
+  --x-switch-off-color: var(--x-border-color);
+  --x-switch-on-border-color: var(--x-color-primary);
+  --x-switch-off-border-color: var(--x-border-color);
+}
+
+.x-switch {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 20px;
+  height: 32px;
+  &.is-checked {
+    .x-switch__core {
+      border-color: var(--x-switch-on-border-color);
+      background-color: var(--x-switch-on-color);
+      .x-switch__core-action {
+        left: calc(100% - 17px);
+      }
+    }
+  }
+}
+
+.x-switch__core {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  height: 20px;
+  min-width: 40px;
+  border: 1px solid var(--x-switch-off-border-color);
+  outline: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: var(--x-switch-off-color);
+  cursor: pointer;
+  transition:
+    border-color var(--x-transition-duration),
+    background-color var(--x-transition-duration);
+  .x-switch__core-action {
+    position: absolute;
+    left: 1px;
+    border-radius: var(--x-border-radius-circle);
+    width: 16px;
+    height: 16px;
+    background-color: var(--x-color-white);
+    transition: all var(--x-transition-duration);
+  }
+}

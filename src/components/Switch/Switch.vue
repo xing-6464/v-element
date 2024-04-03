@@ -6,6 +6,7 @@
       'is-disabled': disabled,
       'is-checked': checked
     }"
+    @click="switchValue"
   >
     <input
       class="x-switch__input"
@@ -34,4 +35,11 @@ const emits = defineEmits<SwitchEmits>()
 const innerValue = ref(props.modelValue)
 // 现在是否被选中
 const checked = computed(() => innerValue.value)
+
+const switchValue = () => {
+  if (props.disabled) return
+  innerValue.value = !checked.value
+  emits('update:modelValue', innerValue.value)
+  emits('change', innerValue.value)
+}
 </script>
