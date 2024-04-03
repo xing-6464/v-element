@@ -97,7 +97,7 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs, watch, type Ref, nextTick } from 'vue'
 import Icon from '../Icon/Icon.vue'
-import type { InputEmits, InputProps } from './types'
+import type { InputEmits, InputProps, InputInstance } from './types'
 
 defineOptions({
   name: 'XInput',

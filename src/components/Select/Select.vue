@@ -1,7 +1,23 @@
 <template>
   <div class="x-select" :class="{ 'is-disabled': disabled }" @click="toggleDropdown">
-    <Tooltip placement="bottom-start" ref="tooltipRef" :popper-options="popperOptions" manual>
-      <Input v-model="states.inputValue" :disabled="disabled" :placeholder="placeholder" readonly />
+    <Tooltip
+      placement="bottom-start"
+      ref="tooltipRef"
+      :popper-options="popperOptions"
+      @click-outside="controlDropdown(false)"
+      manual
+    >
+      <Input
+        ref="inputRef"
+        v-model="states.inputValue"
+        :disabled="disabled"
+        :placeholder="placeholder"
+        readonly
+      >
+        <template #suffix>
+          <Icon icon="angle-down" class="header-angle" :class="{ 'is-active': isDropdownShow }" />
+        </template>
+      </Input>
       <template #content>
         <ul class="x-select__menu">
           <template v-for="(item, index) in options" :key="index">
@@ -24,11 +40,15 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+
+import Tooltip from '../Tooltip/Tooltip.vue'
+import Input from '../Input/Input.vue'
+import Icon from '../Icon/Icon.vue'
+
 import type { Ref } from 'vue'
 import type { SelectProps, SelectEmits, SelectOption, SelectStates } from './types'
-import Tooltip from '../Tooltip/Tooltip.vue'
 import type { TooltipInstance } from '../Tooltip/types'
-import Input from '../Input/Input.vue'
+import type { InputInstance } from '../Input/types'
 
 const findOption = (val: string) => {
   const option = props.options.find((option) => option.value === val)
@@ -41,6 +61,7 @@ const props = defineProps<SelectProps>()
 const emits = defineEmits<SelectEmits>()
 const initialOption = findOption(props.modelValue)
 const tooltipRef = ref() as Ref<TooltipInstance>
+const inputRef = ref<InputInstance>()
 const isDropdownShow = ref(false)
 const states = reactive<SelectStates>({
   inputValue: initialOption ? initialOption.label : '',
@@ -91,5 +112,6 @@ const itemSelect = (e: SelectOption) => {
   emits('change', e.value)
   emits('update:modelValue', e.value)
   controlDropdown(false)
+  inputRef.value?.ref.focus()
 }
 </script>

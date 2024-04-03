@@ -14,6 +14,17 @@
   .x-tooltip .x-tooltip__popper {
     padding: 0;
   }
+  .x-input.is-focus .x-input__wrapper {
+    box-shadow: 0 0 0 1px var(--x-select-input-focus-border-color) inset !important;
+  }
+  .x-input {
+    .header-angle {
+      transition: transform var(--x-transition-duration);
+      &.is-active {
+        transform: rotate(180deg);
+      }
+    }
+  }
   .x-input__inner {
     cursor: pointer;
   }
