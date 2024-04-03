@@ -24,8 +24,15 @@
         </span>
         <input
           class="x-input__inner"
+          ref="inputRef"
+          v-bind="attrs"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           :disabled="disabled"
+          :readonly="readonly"
+          :autocomplete="autocomplete"
+          :placeholder="placeholder"
+          :autofocus="autofocus"
+          :form="form"
           v-model="innerValue"
           @input="handleInput"
           @focus="handleFocus"
@@ -59,8 +66,15 @@
     <template v-else>
       <textarea
         class="x-textarea__wrapper"
+        ref="inputRef"
+        v-bind="attrs"
         :disabled="disabled"
         v-model="innerValue"
+        :readonly="readonly"
+        :autocomplete="autocomplete"
+        :placeholder="placeholder"
+        :autofocus="autofocus"
+        :form="form"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -71,15 +85,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, useAttrs, watch, type Ref } from 'vue'
 import Icon from '../Icon/Icon.vue'
 import type { InputEmits, InputProps } from './types'
 
+defineOptions({
+  name: 'XInput',
+  inheritAttrs: false
+})
+
 const props = withDefaults(defineProps<InputProps>(), {
-  type: 'text'
+  type: 'text',
+  autocomplete: 'off'
 })
 const emits = defineEmits<InputEmits>()
+const attrs = useAttrs()
 const innerValue = ref(props.modelValue)
+const inputRef = ref() as Ref<HTMLInputElement>
 const isFocus = ref(false)
 const passwordVisible = ref(false)
 
@@ -121,4 +143,8 @@ const clear = () => {
   emits('change', '')
   emits('input', '')
 }
+
+defineExpose({
+  ref: inputRef
+})
 </script>
