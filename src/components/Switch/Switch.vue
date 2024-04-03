@@ -9,11 +9,13 @@
     @click="switchValue"
   >
     <input
+      ref="input"
       class="x-switch__input"
       type="checkbox"
       role="switch"
       :name="name"
       :disabled="disabled"
+      @keydown.enter="switchValue"
     />
     <div class="x-switch__core">
       <div class="x-switch__core-action"></div>
@@ -22,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import type { SwitchProps, SwitchEmits } from './types'
 
 defineOptions({
@@ -32,9 +34,21 @@ defineOptions({
 const props = defineProps<SwitchProps>()
 const emits = defineEmits<SwitchEmits>()
 
+const input = ref<HTMLInputElement>()
 const innerValue = ref(props.modelValue)
 // 现在是否被选中
 const checked = computed(() => innerValue.value)
+
+watch(checked, (val) => {
+  input.value!.checked = val
+})
+
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    innerValue.value = newVal
+  }
+)
 
 const switchValue = () => {
   if (props.disabled) return
@@ -42,4 +56,8 @@ const switchValue = () => {
   emits('update:modelValue', innerValue.value)
   emits('change', innerValue.value)
 }
+
+onMounted(() => {
+  input.value!.checked = checked.value
+})
 </script>
