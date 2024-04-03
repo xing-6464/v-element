@@ -9,26 +9,30 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('../../src', import.meta.url)),
-      },
-    },
+        '@': fileURLToPath(new URL('../../src', import.meta.url))
+      }
+    }
   },
   markdown: {
     config(md) {
       md.use(containerPreview)
       md.use(componentPreview)
-    },
+    }
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    nav: [{ text: 'Home', link: '/' }],
+    nav: [{ text: '主页', link: '/' }],
     sidebar: [
       {
-        text: 'Basic',
-        items: [{ text: 'Button', link: '/components/button' }],
+        text: 'Button 按钮',
+        link: '/components/button'
       },
+      {
+        text: 'Input 输入框',
+        link: '/components/input'
+      }
     ],
 
-    socialLinks: [{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }],
-  },
+    socialLinks: [{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }]
+  }
 })

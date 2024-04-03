@@ -40,9 +40,19 @@
           @change="handleChange"
         />
         <!-- suffix slot -->
-        <span v-if="$slots.suffix || showClear || showPasswordArea" class="x-input__suffix">
+        <span
+          v-if="$slots.suffix || showClear || showPasswordArea"
+          class="x-input__suffix"
+          @click="keepFocus"
+        >
           <slot name="suffix" />
-          <Icon icon="circle-xmark" v-if="showClear" class="x-input__clear" @click="clear" />
+          <Icon
+            icon="circle-xmark"
+            v-if="showClear"
+            class="x-input__clear"
+            @click="clear"
+            @mousedown.prevent="NOOP"
+          />
           <Icon
             icon="eye"
             v-if="showPasswordArea && passwordVisible"
@@ -85,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useAttrs, watch, type Ref } from 'vue'
+import { computed, ref, useAttrs, watch, type Ref, nextTick } from 'vue'
 import Icon from '../Icon/Icon.vue'
 import type { InputEmits, InputProps } from './types'
 
@@ -118,6 +128,12 @@ watch(
     innerValue.value = value
   }
 )
+
+const NOOP = () => {}
+const keepFocus = async () => {
+  await nextTick()
+  inputRef.value.focus()
+}
 const togglePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
 }
