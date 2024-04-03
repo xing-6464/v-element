@@ -41,8 +41,6 @@ const popperContainerNode = ref<HTMLElement>()
 let popperInstance: Instance | null = null
 let events: Record<string, any> = reactive({})
 let outerEvents: Record<string, any> = reactive({})
-let openTimes = 0
-let closeTimes = 0
 
 const popperOptions = computed(() => {
   return {
@@ -113,13 +111,11 @@ useClickOutside(popperContainerNode, () => {
   }
 })
 function open() {
-  openTimes++
   isOpen.value = true
   emits('visible-change', true)
 }
 
 function close() {
-  closeTimes++
   isOpen.value = false
   emits('visible-change', false)
 }

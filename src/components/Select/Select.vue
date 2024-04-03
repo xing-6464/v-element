@@ -1,7 +1,7 @@
 <template>
   <div class="x-select" :class="{ 'is-disabled': disabled }" @click="toggleDropdown">
-    <Tooltip placement="bottom-start" ref="tooltipRef" manual>
-      <Input v-model="states.inputValue" :disabled="disabled" :placeholder="placeholder" />
+    <Tooltip placement="bottom-start" ref="tooltipRef" :popper-options="popperOptions" manual>
+      <Input v-model="states.inputValue" :disabled="disabled" :placeholder="placeholder" readonly />
       <template #content>
         <ul class="x-select__menu">
           <template v-for="(item, index) in options" :key="index">
@@ -46,6 +46,25 @@ const states = reactive<SelectStates>({
   inputValue: initialOption ? initialOption.label : '',
   selectedOption: initialOption
 })
+const popperOptions = {
+  modifiers: [
+    {
+      name: 'offset',
+      options: {
+        offset: [0, 9]
+      }
+    },
+    {
+      name: 'sameWidth',
+      enabled: true,
+      fn: ({ state }: { state: any }) => {
+        state.styles.popper.width = `${state.rects.reference.width}px`
+      },
+      phase: 'beforeWrite',
+      requires: ['computeStyles']
+    }
+  ]
+} as any
 
 const controlDropdown = (show: boolean) => {
   if (show) {
