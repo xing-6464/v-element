@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { fileURLToPath, URL } from 'node:url'
 import { containerPreview, componentPreview } from '@vitepress-demo-preview/plugin'
+import { link } from 'node:fs'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -34,6 +35,10 @@ export default defineConfig({
       {
         text: 'Switch 开关',
         link: '/components/switch'
+      },
+      {
+        text: 'Select 选择器',
+        link: '/components/select'
       }
     ],
 
