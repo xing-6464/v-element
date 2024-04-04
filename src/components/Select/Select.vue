@@ -1,5 +1,11 @@
 <template>
-  <div class="x-select" :class="{ 'is-disabled': disabled }" @click="toggleDropdown">
+  <div
+    class="x-select"
+    :class="{ 'is-disabled': disabled }"
+    @click="toggleDropdown"
+    @mouseenter="states.mouseHover = true"
+    @mouseleave="states.mouseHover = false"
+  >
     <Tooltip
       placement="bottom-start"
       ref="tooltipRef"
@@ -15,7 +21,19 @@
         readonly
       >
         <template #suffix>
-          <Icon icon="angle-down" class="header-angle" :class="{ 'is-active': isDropdownShow }" />
+          <Icon
+            icon="circle-xmark"
+            v-if="showClearIcon"
+            class="x-input__clear"
+            @click.stop="onClear"
+            @mousedown.prevent="NOOP"
+          />
+          <Icon
+            icon="angle-down"
+            class="header-angle"
+            :class="{ 'is-active': isDropdownShow }"
+            v-else
+          />
         </template>
       </Input>
       <template #content>
@@ -39,7 +57,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 import Tooltip from '../Tooltip/Tooltip.vue'
 import Input from '../Input/Input.vue'
@@ -65,8 +83,20 @@ const inputRef = ref<InputInstance>()
 const isDropdownShow = ref(false)
 const states = reactive<SelectStates>({
   inputValue: initialOption ? initialOption.label : '',
-  selectedOption: initialOption
+  selectedOption: initialOption,
+  mouseHover: false
 })
+
+const showClearIcon = computed(() => {
+  // hover 上去
+  // props.clearable 为true
+  // 必须要有选项
+  // Input 的值不能为空
+  return (
+    props.clearable && states.mouseHover && states.selectedOption && states.inputValue.trim() !== ''
+  )
+})
+
 const popperOptions = {
   modifiers: [
     {
@@ -87,6 +117,14 @@ const popperOptions = {
   ]
 } as any
 
+const NOOP = () => {}
+const onClear = () => {
+  states.selectedOption = null
+  states.inputValue = ''
+  emits('clear')
+  emits('change', '')
+  emits('update:modelValue', '')
+}
 const controlDropdown = (show: boolean) => {
   if (show) {
     tooltipRef.value.show()
