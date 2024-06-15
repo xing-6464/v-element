@@ -18,7 +18,8 @@
         v-model="states.inputValue"
         :disabled="disabled"
         :placeholder="placeholder"
-        readonly
+        :readonly="!filterable"
+        @input="onFilter"
       >
         <template #suffix>
           <Icon
@@ -38,7 +39,7 @@
       </Input>
       <template #content>
         <ul class="x-select__menu">
-          <template v-for="(item, index) in options" :key="index">
+          <template v-for="(item, index) in filteredOptions" :key="index">
             <li
               class="x-select__menu-item"
               :class="{
@@ -57,7 +58,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 
 import Tooltip from '../Tooltip/Tooltip.vue'
 import Input from '../Input/Input.vue'
@@ -68,6 +69,7 @@ import type { SelectProps, SelectEmits, SelectOption, SelectStates } from './typ
 import type { TooltipInstance } from '../Tooltip/types'
 import type { InputInstance } from '../Input/types'
 import RenderVNode from '../Common/RenderVNode'
+import { filter, isFunction } from 'lodash-es'
 
 const findOption = (val: string) => {
   const option = props.options.find((option) => option.value === val)
@@ -117,6 +119,25 @@ const popperOptions = {
     }
   ]
 } as any
+const filteredOptions = ref(props.options)
+
+watch(
+  () => props.options,
+  (newOptions) => {
+    filteredOptions.value = newOptions
+  }
+)
+const generateFilterOptions = (searchValue: string) => {
+  if (!props.filterable) return
+  if (props.filterMethod && isFunction(props.filterMethod)) {
+    filteredOptions.value = props.filterMethod(searchValue)
+  } else {
+    filteredOptions.value = props.options.filter((opt) => opt.label.includes(searchValue))
+  }
+}
+const onFilter = () => {
+  generateFilterOptions(states.inputValue)
+}
 
 const NOOP = () => {}
 const onClear = () => {
