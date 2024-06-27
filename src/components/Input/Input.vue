@@ -160,7 +160,7 @@ const clear = () => {
   emits('input', '')
 }
 
-defineExpose({
-  ref: inputRef
+defineExpose<InputInstance>({
+  ref: inputRef.value
 })
 </script>

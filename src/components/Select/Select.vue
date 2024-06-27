@@ -17,8 +17,8 @@
         ref="inputRef"
         v-model="states.inputValue"
         :disabled="disabled"
-        :placeholder="placeholder"
-        :readonly="!filterable"
+        :placeholder="filteredPlaceholder"
+        :readonly="!filterable || !isDropdownShow"
         @input="onFilter"
       >
         <template #suffix>
@@ -69,7 +69,7 @@ import type { SelectProps, SelectEmits, SelectOption, SelectStates } from './typ
 import type { TooltipInstance } from '../Tooltip/types'
 import type { InputInstance } from '../Input/types'
 import RenderVNode from '../Common/RenderVNode'
-import { filter, isFunction } from 'lodash-es'
+import { isFunction } from 'lodash-es'
 
 const findOption = (val: string) => {
   const option = props.options.find((option) => option.value === val)
@@ -127,6 +127,7 @@ watch(
     filteredOptions.value = newOptions
   }
 )
+
 const generateFilterOptions = (searchValue: string) => {
   if (!props.filterable) return
   if (props.filterMethod && isFunction(props.filterMethod)) {
@@ -138,6 +139,11 @@ const generateFilterOptions = (searchValue: string) => {
 const onFilter = () => {
   generateFilterOptions(states.inputValue)
 }
+const filteredPlaceholder = computed(() => {
+  return props.filterable && states.selectedOption && isDropdownShow.value
+    ? states.selectedOption.label
+    : props.placeholder
+})
 
 const NOOP = () => {}
 const onClear = () => {
@@ -149,9 +155,21 @@ const onClear = () => {
 }
 const controlDropdown = (show: boolean) => {
   if (show) {
+    // filter 模式 && 之前选择过对应的值
+    if (props.filterable && states.selectedOption) {
+      states.inputValue = ''
+    }
+    // 进行一次默认选项的生成
+    if (props.filterable) {
+      generateFilterOptions(states.inputValue)
+    }
     tooltipRef.value.show()
   } else {
     tooltipRef.value.hide()
+    // blur 时候 重新设置 inputValue
+    if (props.filterable) {
+      states.inputValue = states.selectedOption ? states.selectedOption.label : ''
+    }
   }
   isDropdownShow.value = show
   emits('visible-change', show)

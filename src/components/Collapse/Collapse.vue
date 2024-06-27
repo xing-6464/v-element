@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, watch } from 'vue'
+import { ref, provide, watch, onUpdated } from 'vue'
 import type { NameType, CollapseEmits, CollapseProps } from './types'
 import { collapseContextKey } from './types'
 
@@ -16,10 +16,14 @@ const props = defineProps<CollapseProps>()
 const emits = defineEmits<CollapseEmits>()
 
 const activeNames = ref<NameType[]>(props.modelValue)
+
 watch(
   () => props.modelValue,
   () => {
     activeNames.value = props.modelValue
+  },
+  {
+    deep: true
   }
 )
 if (props.accordion && activeNames.value.length > 1) {

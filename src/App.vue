@@ -5,13 +5,16 @@ import Collapse from './components/Collapse/Collapse.vue'
 import Item from './components/Collapse/CollapseItem.vue'
 import { createMessage } from './components/Message/method'
 
-const openValue = ref(['a'])
+const openValue = ref([''])
 
 onMounted(() => {
   createMessage({ message: 'hello world', duration: 3000 })
   createMessage({ message: 'hello world world', duration: 0, type: 'success', showClose: true })
   createMessage({ message: 'hello world world world', duration: 0, type: 'warning' })
 })
+setTimeout(() => {
+  openValue.value.push('a')
+}, 3000)
 </script>
 
 <template>
