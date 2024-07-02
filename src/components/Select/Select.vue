@@ -19,7 +19,7 @@
         :disabled="disabled"
         :placeholder="filteredPlaceholder"
         :readonly="!filterable || !isDropdownShow"
-        @input="onFilter"
+        @input="debounceOnFilter"
       >
         <template #suffix>
           <Icon
@@ -73,7 +73,7 @@ import type { SelectProps, SelectEmits, SelectOption, SelectStates } from './typ
 import type { TooltipInstance } from '../Tooltip/types'
 import type { InputInstance } from '../Input/types'
 import RenderVNode from '../Common/RenderVNode'
-import { isFunction } from 'lodash-es'
+import { debounce, isFunction } from 'lodash-es'
 
 const findOption = (val: string) => {
   const option = props.options.find((option) => option.value === val)
@@ -85,6 +85,7 @@ defineOptions({
 const props = withDefaults(defineProps<SelectProps>(), {
   options: () => []
 })
+const timeout = computed(() => (props.remote ? 300 : 0))
 const emits = defineEmits<SelectEmits>()
 const initialOption = findOption(props.modelValue)
 const tooltipRef = ref() as Ref<TooltipInstance>
@@ -156,6 +157,7 @@ const generateFilterOptions = async (searchValue: string) => {
 const onFilter = () => {
   generateFilterOptions(states.inputValue)
 }
+const debounceOnFilter = debounce(onFilter, timeout.value)
 const filteredPlaceholder = computed(() => {
   return props.filterable && states.selectedOption && isDropdownShow.value
     ? states.selectedOption.label
