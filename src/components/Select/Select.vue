@@ -38,7 +38,11 @@
         </template>
       </Input>
       <template #content>
-        <ul class="x-select__menu">
+        <div class="x-select__loading" v-if="states.loading"><Icon icon="spinner" spin /></div>
+        <div class="x-select__nodata" v-else-if="filterable && filteredOptions.length === 0">
+          no matching data
+        </div>
+        <ul class="x-select__menu" v-else>
           <template v-for="(item, index) in filteredOptions" :key="index">
             <li
               class="x-select__menu-item"
@@ -78,7 +82,9 @@ const findOption = (val: string) => {
 defineOptions({
   name: 'XSelect'
 })
-const props = defineProps<SelectProps>()
+const props = withDefaults(defineProps<SelectProps>(), {
+  options: () => []
+})
 const emits = defineEmits<SelectEmits>()
 const initialOption = findOption(props.modelValue)
 const tooltipRef = ref() as Ref<TooltipInstance>
@@ -87,7 +93,8 @@ const isDropdownShow = ref(false)
 const states = reactive<SelectStates>({
   inputValue: initialOption ? initialOption.label : '',
   selectedOption: initialOption,
-  mouseHover: false
+  mouseHover: false,
+  loading: false
 })
 
 const showClearIcon = computed(() => {
@@ -128,10 +135,20 @@ watch(
   }
 )
 
-const generateFilterOptions = (searchValue: string) => {
+const generateFilterOptions = async (searchValue: string) => {
   if (!props.filterable) return
   if (props.filterMethod && isFunction(props.filterMethod)) {
     filteredOptions.value = props.filterMethod(searchValue)
+  } else if (props.remote && props.remoteMethod && isFunction(props.remoteMethod)) {
+    states.loading = true
+    try {
+      filteredOptions.value = await props.remoteMethod(searchValue)
+    } catch (e) {
+      console.error(e)
+      filteredOptions.value = []
+    } finally {
+      states.loading = false
+    }
   } else {
     filteredOptions.value = props.options.filter((opt) => opt.label.includes(searchValue))
   }

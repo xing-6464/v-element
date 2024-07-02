@@ -28,6 +28,14 @@
   .x-input__inner {
     cursor: pointer;
   }
+  .x-select__nodata,
+  .x-select__loading {
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    color: var(--x-text-color-secondary);
+    font-size: var(--x-select-font-size);
+  }
   .x-select__menu {
     list-style: none;
     margin: 6px 0;
