@@ -20,6 +20,7 @@
         :placeholder="filteredPlaceholder"
         :readonly="!filterable || !isDropdownShow"
         @input="debounceOnFilter"
+        @keydown="handleKeydown"
       >
         <template #suffix>
           <Icon
@@ -97,7 +98,21 @@ const states = reactive<SelectStates>({
   mouseHover: false,
   loading: false
 })
-
+// 绑定键盘事件
+const handleKeydown = (e: KeyboardEvent) => {
+  switch (e.key) {
+    case 'Enter':
+      toggleDropdown()
+      break
+    case 'Escape':
+      if (isDropdownShow.value) {
+        controlDropdown(false)
+      }
+      break
+    default:
+      break
+  }
+}
 const showClearIcon = computed(() => {
   // hover 上去
   // props.clearable 为true
