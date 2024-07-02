@@ -49,7 +49,8 @@
               class="x-select__menu-item"
               :class="{
                 'is-disabled': item.disabled,
-                'is-selected': states.selectedOption?.value === item.value
+                'is-selected': states.selectedOption?.value === item.value,
+                'is-highlighted': states.highlightIndex === index
               }"
               :id="`select-item-${item.value}`"
               @click.stop="itemSelect(item)"
@@ -96,17 +97,51 @@ const states = reactive<SelectStates>({
   inputValue: initialOption ? initialOption.label : '',
   selectedOption: initialOption,
   mouseHover: false,
-  loading: false
+  loading: false,
+  highlightIndex: -1
 })
 // 绑定键盘事件
 const handleKeydown = (e: KeyboardEvent) => {
   switch (e.key) {
     case 'Enter':
+      if (!isDropdownShow.value) {
+        controlDropdown(false)
+      } else {
+        if (states.highlightIndex > -1 && filteredOptions.value[states.highlightIndex]) {
+          itemSelect(filteredOptions.value[states.highlightIndex])
+        } else {
+          controlDropdown(false)
+        }
+      }
       toggleDropdown()
       break
     case 'Escape':
       if (isDropdownShow.value) {
         controlDropdown(false)
+      }
+      break
+    case 'ArrowUp':
+      e.preventDefault()
+      // states.highlightIndex = -1
+      if (filteredOptions.value.length > 0) {
+        if (states.highlightIndex === -1 || states.highlightIndex === 0) {
+          states.highlightIndex = filteredOptions.value.length - 1
+        } else {
+          states.highlightIndex--
+        }
+      }
+      break
+    case 'ArrowDown':
+      e.preventDefault()
+      if (filteredOptions.value.length > 0) {
+        if (
+          states.highlightIndex === -1 ||
+          states.highlightIndex === filteredOptions.value.length - 1
+        ) {
+          states.highlightIndex = 0
+        } else {
+          states.highlightIndex++
+        }
       }
       break
     default:
@@ -168,6 +203,7 @@ const generateFilterOptions = async (searchValue: string) => {
   } else {
     filteredOptions.value = props.options.filter((opt) => opt.label.includes(searchValue))
   }
+  states.highlightIndex = -1
 }
 const onFilter = () => {
   generateFilterOptions(states.inputValue)
@@ -204,6 +240,7 @@ const controlDropdown = (show: boolean) => {
     if (props.filterable) {
       states.inputValue = states.selectedOption ? states.selectedOption.label : ''
     }
+    states.highlightIndex = -1
   }
   isDropdownShow.value = show
   emits('visible-change', show)
