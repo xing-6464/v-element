@@ -100,6 +100,16 @@ const states = reactive<SelectStates>({
   loading: false,
   highlightIndex: -1
 })
+watch(
+  () => props.modelValue,
+  (val) => {
+    const option = findOption(val)
+    Object.assign(states, {
+      inputValue: option ? option?.label : '',
+      selectedOption: option
+    })
+  }
+)
 // 绑定键盘事件
 const handleKeydown = (e: KeyboardEvent) => {
   switch (e.key) {
@@ -177,8 +187,8 @@ const popperOptions = {
     }
   ]
 } as any
-const filteredOptions = ref(props.options)
 
+const filteredOptions = ref(props.options)
 watch(
   () => props.options,
   (newOptions) => {
