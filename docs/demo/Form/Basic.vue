@@ -18,10 +18,10 @@ const rules = {
 <template>
   <div>
     <Form :model="model" :rules="rules">
-      <FormItem label="the email">
+      <FormItem label="the email" prop="email">
         <Input v-model="model.email" />
       </FormItem>
-      <FormItem label="the password">
+      <FormItem label="the password" prop="password">
         <template #label="{ label }">
           <Button>{{ label }}</Button>
         </template>
