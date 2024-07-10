@@ -1,21 +1,31 @@
 <script setup>
+import { reactive } from 'vue'
 import Form from '@/components/Form/Form.vue'
 import FormItem from '@/components/Form/FormItem.vue'
 import Input from '@/components/Input/Input.vue'
 import Button from '@/components/Button/Button.vue'
+const model = reactive({
+  email: '',
+  password: ''
+})
+
+const rules = {
+  email: [{ type: 'string', required: true, trigger: 'blur' }],
+  password: [{ type: 'string', required: true, trigger: 'blur' }]
+}
 </script>
 
 <template>
   <div>
-    <Form>
+    <Form :model="model" :rules="rules">
       <FormItem label="the email">
-        <Input />
+        <Input v-model="model.email" />
       </FormItem>
       <FormItem label="the password">
         <template #label="{ label }">
           <Button>{{ label }}</Button>
         </template>
-        <Input type="password" />
+        <Input type="password" v-model="model.password" />
       </FormItem>
       <div>
         <Button type="primary">Submit</Button>
@@ -23,6 +33,8 @@ import Button from '@/components/Button/Button.vue'
       </div>
     </Form>
   </div>
+  <p>
+    form model:
+    {{ model }}
+  </p>
 </template>
-
-<style></style>
