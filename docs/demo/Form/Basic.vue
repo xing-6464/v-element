@@ -10,8 +10,8 @@ const model = reactive({
 })
 
 const rules = {
-  email: [{ type: 'string', required: true, trigger: 'blur' }],
-  password: [{ type: 'string', required: true, trigger: 'blur' }]
+  email: [{ type: 'email', required: true, trigger: 'blur' }],
+  password: [{ type: 'string', required: true, trigger: 'blur', min: 3, max: 5 }]
 }
 </script>
 
