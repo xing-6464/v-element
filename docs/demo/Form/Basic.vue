@@ -6,11 +6,13 @@ import Input from '@/components/Input/Input.vue'
 import Button from '@/components/Button/Button.vue'
 const model = reactive({
   email: '',
-  password: ''
+  password: '',
+  test: ''
 })
 
 const rules = {
   email: [{ type: 'email', required: true, trigger: 'blur' }],
+  test: [{ type: 'string', required: true, trigger: 'blur' }],
   password: [{ type: 'string', required: true, trigger: 'blur', min: 3, max: 5 }]
 }
 </script>
@@ -20,6 +22,11 @@ const rules = {
     <Form :model="model" :rules="rules">
       <FormItem label="the email" prop="email">
         <Input v-model="model.email" />
+      </FormItem>
+      <FormItem label="the testValue" prop="test">
+        <template #default="{ validate }">
+          <input type="text" v-model="model.test" @blur="validate" />
+        </template>
       </FormItem>
       <FormItem label="the password" prop="password">
         <template #label="{ label }">

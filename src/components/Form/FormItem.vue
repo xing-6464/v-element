@@ -13,22 +13,22 @@
       </slot>
     </label>
     <div class="x-form-item__content">
-      <slot></slot>
+      <slot :validate="validate" />
       <div class="x-form-item__error-msg" v-if="validateStatus.state === 'error'">
         {{ validateStatus.errorMsg }}
       </div>
     </div>
     {{ innerValue }} -- {{ itemRules }}
-    <button @click.prevent="validate()">点击</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, inject, reactive } from 'vue'
+import { computed, inject, provide, reactive } from 'vue'
 import Schema from 'async-validator'
 import { isNil } from 'lodash-es'
-import { formContextKey } from './types'
-import type { FormItemProps, FormValidateFailure } from './types'
+import { formContextKey, formItemContextKey } from './types'
+import type { FormItemContext, FormItemProps, FormValidateFailure } from './types'
+
 defineOptions({
   name: 'XFormItem'
 })
@@ -81,4 +81,8 @@ const validate = () => {
       })
   }
 }
+const context: FormItemContext = {
+  validate
+}
+provide(formItemContextKey, context)
 </script>

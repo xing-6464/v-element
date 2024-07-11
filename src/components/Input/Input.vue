@@ -95,9 +95,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useAttrs, watch, type Ref, nextTick } from 'vue'
+import { computed, ref, useAttrs, watch, type Ref, nextTick, inject } from 'vue'
 import Icon from '../Icon/Icon.vue'
 import type { InputEmits, InputProps, InputInstance } from './types'
+import { formItemContextKey } from '../Form/types'
+
+const formItemContext = inject(formItemContextKey)
+const runValidation = () => {
+  formItemContext?.validate?.()
+}
 
 defineOptions({
   name: 'XInput',
@@ -151,6 +157,7 @@ const handleFocus = (e: FocusEvent) => {
 const handleBlur = (e: FocusEvent) => {
   isFocus.value = false
   emits('blur', e)
+  runValidation()
 }
 const clear = () => {
   innerValue.value = ''
