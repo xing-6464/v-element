@@ -1,5 +1,12 @@
 <template>
-  <div class="x-form-item">
+  <div
+    class="x-form-item"
+    :class="{
+      'is-error': validateStatus.state === 'error',
+      'is-success': validateStatus.state === 'success',
+      'is-loading': validateStatus.loading
+    }"
+  >
     <label class="x-form-item__label">
       <slot name="label" :label="label">
         {{ label }}
@@ -7,6 +14,9 @@
     </label>
     <div class="x-form-item__content">
       <slot></slot>
+      <div class="x-form-item__error-msg" v-if="validateStatus.state === 'error'">
+        {{ validateStatus.errorMsg }}
+      </div>
     </div>
     {{ innerValue }} -- {{ itemRules }}
     <button @click.prevent="validate()">点击</button>
@@ -14,16 +24,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed, inject, reactive } from 'vue'
 import Schema from 'async-validator'
 import { isNil } from 'lodash-es'
 import { formContextKey } from './types'
-import type { FormItemProps } from './types'
+import type { FormItemProps, FormValidateFailure } from './types'
 defineOptions({
   name: 'XFormItem'
 })
 const props = defineProps<FormItemProps>()
 const formContext = inject(formContextKey)
+const validateStatus = reactive({
+  state: 'init',
+  errorMsg: '',
+  loading: false
+})
 
 const innerValue = computed(() => {
   const model = formContext?.model
@@ -47,13 +62,22 @@ const validate = () => {
     const validator = new Schema({
       [modelName]: itemRules.value
     })
+    validateStatus.loading = true
     validator
       .validate({ [modelName]: innerValue.value })
       .then(() => {
-        console.log('success')
+        validateStatus.state = 'success'
       })
-      .catch((e) => {
-        console.error(e.errors)
+      .catch((e: FormValidateFailure) => {
+        const { errors } = e
+        validateStatus.state = 'error'
+        validateStatus.errorMsg =
+          Array.isArray(errors) && errors.length > 0 ? errors[0].message || '' : ''
+
+        console.log(e.errors)
+      })
+      .finally(() => {
+        validateStatus.loading = false
       })
   }
 }
