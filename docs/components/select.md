@@ -42,3 +42,17 @@ description: Select 组件的文档
 服务器搜索数据，输入关键字进行查找。为了启用远程搜索，需要将 `filterable` 和 `remote` 设置为true，同时传入一个`remote-method`。 remote-method 为一个返回 Promise 的Function，类型为 `(value: string) => Promise<SelectOption[]>` 。
 
 <preview path="../demo/Select/Remote.vue" title="筛选选项" description="Select 筛选选项"></preview>
+
+## API
+
+### 属性
+
+<table><thead><tr><th>Name</th><th>Description</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td>model-value / v-model</td><td>绑定值</td><td><code>'string | number'</code></td><td></td></tr><tr><td>options</td><td>下拉框选项</td><td><code>SelectOption[]</code></td><td>[]</td></tr><tr><td>disabled</td><td>是否禁用</td><td><code>boolean</code></td><td>false</td></tr><tr><td>placeholder</td><td>输入框占位文本</td><td><code>string</code></td><td>''</td></tr><tr><td>clearable</td><td>是否显示清除按钮</td><td><code>boolean</code></td><td>false</td></tr><tr><td>filterable</td><td>自定义筛选方法</td><td><code>boolean</code></td><td>false</td></tr><tr><td>filter-method</td><td>自定义筛选方法</td><td><code>(value: string | number) =&gt; SelectOption[]</code></td><td></td></tr><tr><td>remote</td><td>其中的选项是否从服务器远程加载</td><td><code>boolean</code></td><td>false</td></tr><tr><td>remote-method</td><td>自定义远程筛选方法</td><td><code>(value: string | number) =&gt; Promise&lt;SelectOption[]&gt;</code></td><td></td></tr></tbody></table>
+
+### SelectOption 属性
+
+<table><thead><tr><th>Name</th><th>Description</th><th>Type</th><th>Default</th></tr></thead><tbody><tr><td>label</td><td>选项显示的文字</td><td><code>'string'</code></td><td></td></tr><tr><td>value</td><td>选项的值</td><td><code>string | number</code></td><td></td></tr><tr><td>disabled</td><td>是否禁用</td><td><code>boolean</code></td><td>false</td></tr></tbody></table>
+
+### 事件
+
+<table><thead><tr><th>Name</th><th>Description</th><th>Type</th></tr></thead><tbody><tr><td>change</td><td>当选择器的输入框失去焦点时触发</td><td><code>(e: SelectOption) =&gt; void</code></td></tr><tr><td>visible-change</td><td>当下拉框显示或者隐藏时候触发</td><td><code>(e: boolean) =&gt; void</code></td></tr><tr><td>clear</td><td>在点击由 clearable 属性生成的清空按钮时触发</td><td><code>()=&gt;void</code></td></tr></tbody></table>
