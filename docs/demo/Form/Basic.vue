@@ -13,7 +13,6 @@ const model = reactive({
 
 const rules = {
   email: [{ type: 'email', required: true, trigger: 'blur' }],
-  test: [{ type: 'string', required: true, trigger: 'blur' }],
   password: [{ type: 'string', required: true, trigger: 'blur', min: 3, max: 5 }]
 }
 
@@ -36,25 +35,16 @@ const reset = () => {
       <FormItem label="the email" prop="email">
         <Input v-model="model.email" />
       </FormItem>
-      <FormItem label="the testValue" prop="test">
-        <template #default="{ validate }">
-          <input type="text" v-model="model.test" @blur="validate" />
-        </template>
-      </FormItem>
       <FormItem label="the password" prop="password">
         <template #label="{ label }">
-          <Button>{{ label }}</Button>
+          {{ label }}
         </template>
         <Input type="password" v-model="model.password" />
       </FormItem>
       <div>
-        <Button type="primary" @click.prevent="submit">Submit</Button>
-        <Button @click.prevent="reset">Reset</Button>
+        <Button type="primary" @click="submit">Submit</Button>
+        <Button @click="reset">Reset</Button>
       </div>
     </Form>
   </div>
-  <p>
-    form model:
-    {{ model }}
-  </p>
 </template>

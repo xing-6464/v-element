@@ -4,7 +4,8 @@
     :class="{
       'is-error': validateStatus.state === 'error',
       'is-success': validateStatus.state === 'success',
-      'is-loading': validateStatus.loading
+      'is-loading': validateStatus.loading,
+      'is-required': isRequired
     }"
   >
     <label class="x-form-item__label">
@@ -18,7 +19,6 @@
         {{ validateStatus.errorMsg }}
       </div>
     </div>
-    {{ innerValue }} -- {{ itemRules }}
   </div>
 </template>
 
@@ -41,6 +41,9 @@ const validateStatus = reactive({
   loading: false
 })
 
+const isRequired = computed(() => {
+  return itemRules.value.some((rule) => rule.required)
+})
 const innerValue = computed(() => {
   const model = formContext?.model
   if (model && props.prop && !isNil(model[props.prop])) {

@@ -1,7 +1,6 @@
 <template>
   <form class="x-form">
     <slot />
-    <button @click.prevent="validate">Submt</button>
   </form>
 </template>
 
