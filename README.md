@@ -1,46 +1,50 @@
-# v-element
+# X-Element 一个基于 Vue3 的 UI 组件库
 
-This template should help get you started developing with Vue 3 in Vite.
+x-element 是一套基于 Vue3 的 UI 组件库，提供了一些常用的组件，帮助开发者快速开发基于 Vue3 的项目。
 
-## Recommended IDE Setup
+---
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## 安装
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```bash
+npm i @pdx6464/v-element --save
 ```
 
-### Compile and Hot-Reload for Development
+---
 
-```sh
-npm run dev
+## 使用
+
+**开始使用**
+
+```js
+// 引入组件
+import XElement from '@pdx6464/x-element'
+// 引入样式
+import '@pdx6464/x-element/dist/index.css'
+
+import App from './App.vue'
+
+createApp(App).use(XElement).mount('#app')
 ```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
+```vue
+<template>
+  <x-button>我是 XButton</x-button>
+</template>
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+**单个组件引入**
 
-```sh
-npm run lint
+X Element 提供了基于 ES Module 的开箱即用的 Tree Shaking 功能。
+
+```vue
+<template>
+  <Button>我是 XButton</Button>
+</template>
+<script>
+import { Button } from ' @pdx6464/x-element'
+export default {
+  components: { Button }
+}
+</script>
 ```
