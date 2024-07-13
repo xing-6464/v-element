@@ -8,7 +8,7 @@
 import { computed } from 'vue'
 import { omit } from 'lodash-es'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import type { IconProps } from './types.ts'
+import type { IconProps } from './types'
 
 defineOptions({
   name: 'XIcon',

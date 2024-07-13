@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, watch, onUpdated } from 'vue'
+import { ref, provide, watch } from 'vue'
 import type { NameType, CollapseEmits, CollapseProps } from './types'
 import { collapseContextKey } from './types'
 

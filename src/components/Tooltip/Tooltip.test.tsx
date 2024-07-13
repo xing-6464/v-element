@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import ToolTip from './ToolTip.vue'
+import ToolTip from './Tooltip.vue'
 
 vi.mock('@popperjs/core')
 
@@ -22,7 +22,7 @@ describe('Tooltip.vue', () => {
         )
       },
       {
-        attachTo: document.body,
+        attachTo: document.body
       }
     )
     const triggerArea = wrapper.find('#trigger')
@@ -52,7 +52,7 @@ describe('Tooltip.vue', () => {
         )
       },
       {
-        attachTo: document.body,
+        attachTo: document.body
       }
     )
     onVisibleChange.mockClear()

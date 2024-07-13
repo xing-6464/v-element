@@ -1,0 +1,15 @@
+{
+  "extends": "./node_modules/@vue/tsconfig/tsconfig.dom.json",
+  "include": ["src/index.ts", "src/components/**/*", "src/hooks/**/*"],
+  "exclude": ["src/**/__tests__/*"],
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "jsx": "preserve",
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+

@@ -3,36 +3,40 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import eslint from 'vite-plugin-eslint'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'node:path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx(), eslint(), dts({ tsconfigPath: './tsconfig.build.json' })],
+  plugins: [
+    vue(),
+    vueJsx(),
+    dts({ tsconfigPath: './tsconfig.build.json', outDir: './dist/types' })
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
   build: {
+    outDir: 'dist/es',
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'XElement',
-      fileName: 'x-element'
+      fileName: 'x-element',
+      formats: ['es']
     },
     rollupOptions: {
       external: [
         'vue',
         '@fortawesome/fontawesome-svg-core',
         '@fortawesome/free-solid-svg-icons',
-        '@fortawesome/vue-fontawesome'
+        '@fortawesome/vue-fontawesome',
+        'async-validator',
+        '@popperjs/core',
+        'axios'
       ],
       output: {
-        exports: 'named',
-        globals: {
-          vue: 'Vue'
-        },
         assetFileNames: (chunkInfo) => {
           if (chunkInfo.name === 'style.css') {
             return 'index.css'
