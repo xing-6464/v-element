@@ -101,8 +101,8 @@ import type { InputEmits, InputProps, InputInstance } from './types'
 import { formItemContextKey } from '../Form/types'
 
 const formItemContext = inject(formItemContextKey)
-const runValidation = () => {
-  formItemContext?.validate?.()
+const runValidation = (trigger?: string) => {
+  formItemContext?.validate?.(trigger)
 }
 
 defineOptions({
@@ -146,9 +146,11 @@ const togglePasswordVisible = () => {
 const handleInput = () => {
   emits('update:modelValue', innerValue.value)
   emits('input', innerValue.value)
+  runValidation('input')
 }
 const handleChange = () => {
   emits('change', innerValue.value)
+  runValidation('change')
 }
 const handleFocus = (e: FocusEvent) => {
   isFocus.value = true
@@ -157,7 +159,7 @@ const handleFocus = (e: FocusEvent) => {
 const handleBlur = (e: FocusEvent) => {
   isFocus.value = false
   emits('blur', e)
-  runValidation()
+  runValidation('blur')
 }
 const clear = () => {
   innerValue.value = ''
