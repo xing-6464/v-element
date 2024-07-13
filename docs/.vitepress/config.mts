@@ -5,7 +5,7 @@ import { link } from 'node:fs'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'x-element',
+  title: 'V Element',
   description: 'A VitePress element',
   vite: {
     resolve: {
@@ -25,8 +25,24 @@ export default defineConfig({
     nav: [{ text: '主页', link: '/' }],
     sidebar: [
       {
+        text: '开始使用',
+        link: '/components/start'
+      },
+      {
         text: 'Button 按钮',
         link: '/components/button'
+      },
+      {
+        text: 'Alert 提示',
+        link: '/components/alert'
+      },
+      {
+        text: 'Tooltip 文字提示',
+        link: '/components/tooltip'
+      },
+      {
+        text: 'Collapse 折叠面板',
+        link: '/components/collapse'
       },
       {
         text: 'Input 输入框',
