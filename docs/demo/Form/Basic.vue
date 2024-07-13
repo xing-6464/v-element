@@ -8,12 +8,20 @@ const formRef = ref()
 const model = reactive({
   email: '123',
   password: '12',
-  test: ''
+  confirmPwd: ''
 })
 
 const rules = {
   email: [{ type: 'email', required: true, trigger: 'blur' }],
-  password: [{ type: 'string', required: true, trigger: 'blur', min: 3, max: 5 }]
+  password: [{ type: 'string', required: true, trigger: 'blur', min: 3, max: 5 }],
+  confirmPwd: [
+    { type: 'string', required: true, trigger: 'blur' },
+    {
+      validator: (rule, value) => value === model.password,
+      trigger: 'blur',
+      message: '密码必须相同'
+    }
+  ]
 }
 
 const submit = async () => {
@@ -40,6 +48,12 @@ const reset = () => {
           {{ label }}
         </template>
         <Input type="password" v-model="model.password" />
+      </FormItem>
+      <FormItem label="the password" prop="confirmPwd">
+        <template #label="{ label }">
+          {{ label }}
+        </template>
+        <Input type="password" v-model="model.confirmPwd" />
       </FormItem>
       <div>
         <Button type="primary" @click="submit">Submit</Button>

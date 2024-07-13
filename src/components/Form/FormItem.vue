@@ -27,7 +27,13 @@ import { computed, inject, provide, reactive, onMounted, onUnmounted } from 'vue
 import Schema from 'async-validator'
 import { isNil } from 'lodash-es'
 import { formContextKey, formItemContextKey } from './types'
-import type { FormItemContext, FormItemProps, FormValidateFailure } from './types'
+import type {
+  FormItemContext,
+  FormItemProps,
+  FormValidateFailure,
+  ValidateStatusProp,
+  FormItemInstance
+} from './types'
 
 defineOptions({
   name: 'XFormItem'
@@ -35,7 +41,7 @@ defineOptions({
 let initialValue: any = null
 const props = defineProps<FormItemProps>()
 const formContext = inject(formContextKey)
-const validateStatus = reactive({
+const validateStatus = reactive<ValidateStatusProp>({
   state: 'init',
   errorMsg: '',
   loading: false
@@ -71,7 +77,7 @@ const getTriggerRules = (trigger?: string) => {
     return []
   }
 }
-const validate = (trigger?: string) => {
+const validate = async (trigger?: string) => {
   const modelName = props.prop
   const triggerRules = getTriggerRules(trigger)
   if (triggerRules.length === 0) return true
@@ -130,5 +136,12 @@ onMounted(() => {
 
 onUnmounted(() => {
   formContext?.removeField(context)
+})
+
+defineExpose<FormItemInstance>({
+  validateStatus,
+  validate,
+  clearValidate,
+  resetField
 })
 </script>
