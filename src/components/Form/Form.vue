@@ -7,8 +7,15 @@
 
 <script setup lang="ts">
 import { provide } from 'vue'
-import type { FormContext, FormItemContext, FormProps } from './types'
+import type {
+  FormContext,
+  FormInstance,
+  FormItemContext,
+  FormProps,
+  FormValidateFailure
+} from './types'
 import { formContextKey } from './types'
+import type { ValidateFieldsError } from 'async-validator'
 
 defineOptions({
   name: 'XForm'
@@ -23,12 +30,29 @@ const removeField: FormContext['removeField'] = (field) => {
     fields.splice(fields.indexOf(field), 1)
   }
 }
-const validate = () => {
-  console.log('fields', fields)
+const validate = async () => {
+  let validationErrors: ValidateFieldsError = {}
+  for (const field of fields) {
+    try {
+      await field.validate('')
+    } catch (e) {
+      const error = e as FormValidateFailure
+      validationErrors = {
+        ...validationErrors,
+        ...error.fields
+      }
+    }
+  }
+  if (Object.keys(validationErrors).length === 0) return true
+  return Promise.reject(validationErrors)
 }
 provide(formContextKey, {
   ...props,
   addField,
   removeField
+})
+
+defineExpose<FormInstance>({
+  validate
 })
 </script>

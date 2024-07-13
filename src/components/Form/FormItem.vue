@@ -77,7 +77,7 @@ const validate = (trigger?: string) => {
       [modelName]: triggerRules
     })
     validateStatus.loading = true
-    validator
+    return validator
       .validate({ [modelName]: innerValue.value })
       .then(() => {
         validateStatus.state = 'success'
@@ -89,6 +89,7 @@ const validate = (trigger?: string) => {
           Array.isArray(errors) && errors.length > 0 ? errors[0].message || '' : ''
 
         console.log(e.errors)
+        return Promise.reject(e)
       })
       .finally(() => {
         validateStatus.loading = false
