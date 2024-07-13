@@ -33,16 +33,20 @@ export default defineConfig({
         link: '/components/button'
       },
       {
-        text: 'Alert 提示',
-        link: '/components/alert'
+        text: 'Collapse 折叠面板',
+        link: '/components/collapse'
       },
       {
         text: 'Tooltip 文字提示',
         link: '/components/tooltip'
       },
       {
-        text: 'Collapse 折叠面板',
-        link: '/components/collapse'
+        text: 'Dropdown 下拉菜单',
+        link: '/components/dropdown'
+      },
+      {
+        text: 'Message 消息提示',
+        link: '/components/message'
       },
       {
         text: 'Input 输入框',

@@ -1,7 +1,11 @@
 <template>
   <div class="x-collapse-item" :class="{ 'is-disabled': disabled }">
-    <div class="x-collapse-item__header" :class="{ 'is-disabled': disabled, 'is-active': isActive }"
-      :id="`item-header-${name}`" @click="handleClick">
+    <div
+      class="x-collapse-item__header"
+      :class="{ 'is-disabled': disabled, 'is-active': isActive }"
+      :id="`item-header-${name}`"
+      @click="handleClick"
+    >
       <slot name="title">{{ title }}</slot>
       <Icon icon="angle-right" class="header-angle" />
     </div>
@@ -23,7 +27,7 @@ import { collapseContextKey } from './types'
 import type { CollapseItemProps } from './types'
 
 defineOptions({
-  name: 'XCollapseItem',
+  name: 'XCollapseItem'
 })
 const props = defineProps<CollapseItemProps>()
 const collapseContext = inject(collapseContextKey)
@@ -58,9 +62,3 @@ const transitionEvents: Record<string, (el: HTMLElement) => void> = {
   }
 }
 </script>
-
-<style>
-.x-collapse-item__header {
-  font-size: 30px;
-}
-</style>
